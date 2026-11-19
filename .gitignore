@@ -1,0 +1,12 @@
+﻿.env
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+node_modules/
+frontend/dist/
+*.tsbuildinfo
+# generated data and trained models: rebuilt from scripts, never committed
+data/
+model-artifacts/
+storage/

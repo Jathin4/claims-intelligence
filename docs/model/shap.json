@@ -1,0 +1,77 @@
+{
+  "importance": {
+    "amount_vs_category_median": 0.6881,
+    "days_since_previous_claim": 0.3405,
+    "claim_history_count": 0.2318,
+    "document_count": 0.1574,
+    "policy_age_days": 0.0908,
+    "claim_amount": 0.079,
+    "claim_category": 0.0638
+  },
+  "examples": {
+    "highest score": {
+      "claim_id": "CLM-026890",
+      "score": 0.909,
+      "base_value": -0.5666,
+      "risk_log_odds": 2.2087,
+      "contributions": [
+        {
+          "feature": "amount_vs_category_median",
+          "label": "Amount vs category median",
+          "value": 15.705965288781863,
+          "contribution": 1.7567
+        },
+        {
+          "feature": "claim_history_count",
+          "label": "Claims in the last 12 months",
+          "value": 8.0,
+          "contribution": 0.4737
+        },
+        {
+          "feature": "days_since_previous_claim",
+          "label": "Days since previous claim",
+          "value": 9.0,
+          "contribution": 0.439
+        },
+        {
+          "feature": "claim_amount",
+          "label": "Claim amount",
+          "value": 6293.93,
+          "contribution": 0.0833
+        }
+      ]
+    },
+    "lowest score": {
+      "claim_id": "CLM-024280",
+      "score": 0.0,
+      "base_value": -0.5666,
+      "risk_log_odds": -3.1002,
+      "contributions": [
+        {
+          "feature": "amount_vs_category_median",
+          "label": "Amount vs category median",
+          "value": 0.29117410499091234,
+          "contribution": -1.8619
+        },
+        {
+          "feature": "days_since_previous_claim",
+          "label": "Days since previous claim",
+          "value": 624.0,
+          "contribution": -0.4219
+        },
+        {
+          "feature": "claim_history_count",
+          "label": "Claims in the last 12 months",
+          "value": 0.0,
+          "contribution": -0.2785
+        },
+        {
+          "feature": "document_count",
+          "label": "Supporting documents",
+          "value": 2.0,
+          "contribution": 0.036
+        }
+      ]
+    }
+  }
+}
