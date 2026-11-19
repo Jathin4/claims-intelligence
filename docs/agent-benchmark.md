@@ -52,10 +52,37 @@ The number checker (`backend/app/verify.py`) proves that every number, date and 
 - **Wrong (1):** "a recent claim in the same category" (CLM-007384): the earlier claims were vehicle and home; this claim is device. The checker can't catch it: there's no number in the sentence.
 - **Speculative (1):** "may indicate a higher risk of needing manual review despite the model's low risk score" (CLM-006288): second-guesses the model without evidence.
 
+## Held-out test: 14 claims never used for tuning
+
+`python backend/manage.py benchmark-agents --heldout` → `docs/agent-benchmark-heldout.json`. Same 7 rules, the **next 2 claims** for each, excluding the 7 above. Nothing was changed between round 2 and this run. Graded the same way (19 Nov 2026).
+
+| | Held-out |
+|---|---|
+| Findings that passed the checker | 69 |
+| Findings the checker stopped | 1 |
+| Claims that needed a rewrite | 5 of 14 |
+| **Correct** | **61 (88%)** |
+| Speculative | 4 |
+| Wrong | 4 |
+| Median time per claim | 176 s (slower than the 104 s before; other work was running on the laptop) |
+
+**88% on unseen claims vs 94% on the tuning claims**: the fixes generalised, but not completely, which is what a held-out test is for.
+
+| Wrong finding (shortened) | Problem |
+|---|---|
+| "Days since the previous claim is 3, which lowers the risk" (CLM-000673) | SHAP says it **raises** the risk by 0.74: the direction rule from round 1 reduced these errors but didn't remove them |
+| "Raising the risk by 10.61 times the median" (CLM-010460) | 10.61 is the amount ratio, not a change in risk: a number attached to the wrong concept |
+| "7 claims in 12 months, above the category baseline" (CLM-016834) | There is no baseline for claim counts: an invented comparison |
+| "The amount vs category median slightly raises the risk" (CLM-015858) | It's the **largest** factor (+0.89): understated |
+
+The speculative ones: "may suggest a pattern of frequent claims" (one earlier claim), "may indicate a potential anomaly or a lower-risk claim", and two findings calling a +0.20 effect "significant" next to a +2.58 one.
+
+**The checker's own mistake:** the one stopped finding was stopped for the wrong reason. The comparison check read "12" from "in the last 12 months" as one side of "a higher rate (13.6%)". The sentence was wrong anyway (it called the claim "the third in the device category"; it was the second), but the check shouldn't have fired. Fixed afterwards: time windows like "the last 12 months" are ignored by the comparison check (test added).
+
 ## Honest caveats
 
-- **Round 2 isn't a clean test.** The fixes were made after reading round 1 on the **same 7 claims**, so 94% is likely optimistic. A fair number needs new, unseen claims.
-- **One grader (me), 7 claims, 69 findings in total.** Small; enough to find failure patterns, not to give a precise accuracy.
+- **Round 2 isn't a clean test.** The fixes were made after reading round 1 on the **same 7 claims**, so its 94% is optimistic. The held-out run above (88%) is the fair number.
+- **One grader (me), 21 claims, 138 findings in total.** Enough to find failure patterns, not to give a precise accuracy.
 - **Numbers written as words** ("one claim", "three claims") bypass the checker. The prompt asks for digits; the LLM doesn't always comply.
 - **Run-to-run variation:** even at temperature 0 the wording changes between runs.
 

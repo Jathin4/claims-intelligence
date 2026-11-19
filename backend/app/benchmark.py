@@ -18,7 +18,7 @@ from app.db import SessionLocal
 from app.models import AnomalyResult, Claim, RiskPrediction
 
 
-def pick_claims(db: Session) -> list[tuple[str, str]]:
+def pick_claims(db: Session, per_rule: int = 1, exclude: tuple[str, ...] = ()) -> list[tuple[str, str]]:
     mv, amv = scoring.find_active(db, scoring.MODEL_NAME), scoring.find_active(db, scoring.ANOMALY_NAME)
     P, A = RiskPrediction, AnomalyResult
     base = (select(Claim.claim_id).join(P, and_(P.claim_id == Claim.claim_id, P.model_version_id == mv.id))
@@ -36,15 +36,16 @@ def pick_claims(db: Session) -> list[tuple[str, str]]:
     ]
     picked = []
     for name, q in rules:
-        cid = db.scalar(q.where(Claim.claim_id.notin_([c for _, c in picked])).order_by(Claim.claim_id).limit(1))
-        if cid:
+        taken = list(exclude) + [c for _, c in picked]
+        for cid in db.scalars(q.where(Claim.claim_id.notin_(taken)).order_by(Claim.claim_id).limit(per_rule)):
             picked.append((name, cid))
     return picked
 
 
-def run() -> dict:
+def run(heldout: bool = False) -> dict:
+    """heldout: 2 new claims per rule, excluding the 7 the prompt and evidence fixes were made on."""
     with SessionLocal() as db:
-        picked = pick_claims(db)
+        picked = pick_claims(db, per_rule=2, exclude=tuple(c for _, c in pick_claims(db))) if heldout else pick_claims(db)
     graph, results = agents.build_graph(), []
     for kind, claim_id in picked:
         t, steps = time.time(), []
@@ -69,7 +70,7 @@ def run() -> dict:
            "findings_passed": sum(r["passed"] for r in done), "findings_failed": sum(r["failed"] for r in done),
            "cases_with_retry": sum(r["retries"] > 0 for r in done),
            "median_seconds": sorted(r["seconds"] for r in done)[len(done) // 2] if done else None, "results": results}
-    path = PROJECT_DIR / "docs" / "agent-benchmark.json"
+    path = PROJECT_DIR / "docs" / ("agent-benchmark-heldout.json" if heldout else "agent-benchmark.json")
     path.write_text(json.dumps(out, indent=1, default=str), encoding="utf-8")
     print(f"saved {path}")
     return out

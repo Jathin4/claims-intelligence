@@ -59,6 +59,8 @@ def comparison_problems(text: str) -> list[str]:
     the first one after it, or the first two after it when none comes before (same sentence only).
     """
     problems = []
+    # Time windows like "the last 12 months" aren't one side of a comparison (a false alarm in the held-out run).
+    text = re.sub(r"\b(?:last|past|previous)\s+\d+\s+(?:days?|weeks?|months?|years?)\b", " ", text, flags=re.I)
     for sentence in re.split(r"(?<=[.!?])\s+", re.sub(r"\[E\d+\]", " ", text)):
         for m in COMPARE.finditer(sentence):
             before = [t for t in tokens(sentence[:m.start()]) if not EXACT.match(t)]
@@ -125,6 +127,8 @@ def self_check() -> None:
     assert comparison_problems("The score 0.214 is above the review threshold of 0.2336.")
     assert not comparison_problems("The amount 57,058.87 is much higher than the median 3,661.55.")
     assert not comparison_problems("It is 15.58 times higher than the median.")       # one number: nothing to compare
+    assert not comparison_problems("Two claims in the last 12 months; device has a higher rate (13.6%) than all (12.4%).")
+    assert comparison_problems("Two claims in the last 12 months; device has a higher rate (11.3%) than all (12.4%).")
 
 
 if __name__ == "__main__":

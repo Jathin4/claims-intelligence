@@ -5,7 +5,7 @@
     python manage.py import-csv ../data/claims.csv
     python manage.py score                                            # every claim the active model hasn't scored
     python manage.py list
-    python manage.py benchmark-agents                                 # ~15 min on CPU; writes docs/agent-benchmark.json
+    python manage.py benchmark-agents [--heldout]                     # ~15 / ~25 min on CPU; writes docs/agent-benchmark*.json
 """
 import argparse
 import getpass
@@ -91,9 +91,9 @@ if __name__ == "__main__":
     sub.add_parser("import-csv").add_argument("path")
     sub.add_parser("score")
     sub.add_parser("list")
-    sub.add_parser("benchmark-agents")
+    sub.add_parser("benchmark-agents").add_argument("--heldout", action="store_true", help="14 claims never used for tuning")
     a = ap.parse_args()
     {"create-user": lambda: create_user(a.email, a.role, a.password),
      "register-model": lambda: register_model(a.meta_json, a.activate),
      "import-csv": lambda: import_csv(a.path), "score": score, "list": list_all,
-     "benchmark-agents": benchmark.run}[a.cmd]()
+     "benchmark-agents": lambda: benchmark.run(a.heldout)}[a.cmd]()

@@ -56,7 +56,7 @@ Everything below is on the **held-out test period** (the last 15% of claims by d
 | Fairness by region | flag rate 14.0–15.3%, recall 35–41% | no region treated very differently |
 | Anomaly detector | 13% of its flags were planted anomalies | 1.4% for random flags |
 | Drift check | a deliberately drifted batch: amount ratio PSI 0.59, category mix 0.40, documents missing 27% vs 3% | review rate jumped from 16% to 31.5%, warned at import |
-| Investigation agents | 7 rule-picked claims, every finding graded by hand: **33 of 35 correct** after fixes (26 of 34 before) · ~1.7 min per claim on CPU | the code checker stopped every invented number and fake citation; the fixes were tuned on the same claims, so this is optimistic |
+| Investigation agents | Every finding graded by hand. **Held-out (14 claims never used for tuning): 61 of 69 correct (88%)** · tuning claims: 26 of 34 before fixes, 33 of 35 after · 2–3 min per claim on CPU | no invented number or fake citation reached a report; the remaining errors are wrong directions and invented comparisons |
 
 ![What drives the score](docs/model/shap_importance.png)
 
@@ -136,7 +136,7 @@ Every number in the first reports was correct, yet some sentences were wrong:
 
 What the checks still can't catch: a number attached to the wrong label, a comparison without numbers, weak reasoning. That's why the app shows the evidence beside every finding.
 
-The [agent benchmark](docs/agent-benchmark.md) then graded every finding by hand on 7 rule-picked claims (borderline scores, the two models disagreeing, missing documents, no history, drifted data). Round 1 found four more failure patterns (a score rounded to 3 decimals next to a 4-decimal threshold, a SHAP value attached to the wrong factor, a guessed direction, hedging) and one miss: the customer who filed **the same amount three times in five days**. After fixing the evidence and the prompt, 33 of 35 findings were correct.
+The [agent benchmark](docs/agent-benchmark.md) then graded every finding by hand on 7 rule-picked claims (borderline scores, the two models disagreeing, missing documents, no history, drifted data). Round 1 found four more failure patterns (a score rounded to 3 decimals next to a 4-decimal threshold, a SHAP value attached to the wrong factor, a guessed direction, hedging) and one miss: the customer who filed **the same amount three times in five days**. After fixing the evidence and the prompt, 33 of 35 findings were correct on those claims, and **61 of 69 (88%) on 14 new claims** never used for tuning. The held-out run also caught a false alarm in my own comparison check ("the last 12 months" read as a number being compared), now fixed.
 
 ## Security and responsible use
 
@@ -252,7 +252,7 @@ $env:PYTHONPATH = "backend"
 python -m pytest tests backend/tests -q
 ```
 
-The API tests use the separate `claims_intelligence_test` database and a tiny model trained on the fly; the agent tests replace the LLM with a stub. The model-quality contracts read `model-artifacts/` and are skipped until the models are trained. Agent quality on real claims: `python backend/manage.py benchmark-agents` (about 1–2 minutes per claim on CPU).
+The API tests use the separate `claims_intelligence_test` database and a tiny model trained on the fly; the agent tests replace the LLM with a stub. The model-quality contracts read `model-artifacts/` and are skipped until the models are trained. Agent quality on real claims: `python backend/manage.py benchmark-agents` (7 tuning claims) or `--heldout` (14 claims never used for tuning); about 2–3 minutes per claim on CPU.
 
 ## Project structure
 
@@ -290,5 +290,5 @@ docs/                  data.md, eda/, model/, model-card.md, agent-benchmark.md,
 - Recall at the chosen threshold is 38%; the threshold is a business choice between workload and missed claims.
 - The anomaly detector is weak (13% precision); useful only next to the score.
 - The number checker can't catch a number attached to the wrong label, or weak reasoning.
-- CPU-only LLM: about 1–2 minutes per investigation.
-- Next: retrain on a schedule when drift is large, document content as a feature, a held-out set of hand-graded investigations.
+- CPU-only LLM: about 2–3 minutes per investigation.
+- Next: retrain on a schedule when drift is large, document content as a feature, a check that each SHAP value is described in the right direction.

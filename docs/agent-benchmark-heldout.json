@@ -1,0 +1,3764 @@
+{
+ "run_at": "2026-11-19T14:22:34+00:00",
+ "model": "qwen3:8b",
+ "claims": 14,
+ "errors": 0,
+ "findings_passed": 69,
+ "findings_failed": 1,
+ "cases_with_retry": 5,
+ "median_seconds": 176,
+ "results": [
+  {
+   "kind": "highest risk score",
+   "claim_id": "CLM-023615",
+   "seconds": 238,
+   "steps": [
+    "plan",
+    "gather_evidence",
+    "analysis",
+    "verification",
+    "report"
+   ],
+   "retries": 0,
+   "passed": 5,
+   "failed": 0,
+   "summary": "Risk score 0.9091 against a review threshold of 0.2336: recommended for manual review. Not flagged as unusual. Biggest factors raising the score: amount vs category median and days since previous claim.",
+   "findings": [
+    {
+     "text": "The model scored this claim high because the claim amount is 12.15 times the median for the health category, which raises the risk by 1.86 (log-odds).",
+     "evidence": [
+      "E3",
+      "E6"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim is not flagged as unusual, but its anomaly score of 0.571 is below the threshold of 0.608, indicating it is not among the most unusual 2% of claims.",
+     "evidence": [
+      "E4"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The customer has a history of 10 claims, with 7 in the last 12 months, which raises the risk by 0.44 (log-odds).",
+     "evidence": [
+      "E3",
+      "E5"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The health category has a 11.3% manual review rate, which is slightly lower than the 12.4% rate for all categories.",
+     "evidence": [
+      "E6"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim amount is significantly higher than the median for the health category, contributing to the high risk score.",
+     "evidence": [
+      "E3",
+      "E6"
+     ],
+     "problems": []
+    }
+   ],
+   "unverified": [],
+   "questions": [
+    "Does the supporting documentation adequately justify the claim amount of 14,748.55?",
+    "Are the 7 claims in the last 12 months all legitimate and properly documented?",
+    "Is the claim amount of 14,748.55 consistent with the customer's historical claim patterns in the health category?"
+   ],
+   "evidence": [
+    {
+     "id": "E1",
+     "tool": "claim",
+     "title": "Claim record",
+     "source": {
+      "table": "claims",
+      "id": "CLM-023615"
+     },
+     "facts": [
+      {
+       "label": "Claim",
+       "value": "CLM-023615"
+      },
+      {
+       "label": "Customer",
+       "value": "CUS-01520"
+      },
+      {
+       "label": "Region",
+       "value": "east"
+      },
+      {
+       "label": "Category",
+       "value": "health"
+      },
+      {
+       "label": "Claim amount",
+       "value": "14,748.55"
+      },
+      {
+       "label": "Claim date",
+       "value": "2026-02-23"
+      },
+      {
+       "label": "Policy start date",
+       "value": "2021-05-24"
+      },
+      {
+       "label": "Supporting documents",
+       "value": 2
+      }
+     ]
+    },
+    {
+     "id": "E2",
+     "tool": "risk",
+     "title": "Risk score",
+     "source": {
+      "table": "risk_predictions",
+      "id": 53781
+     },
+     "facts": [
+      {
+       "label": "Risk score (probability the claim needs manual review)",
+       "value": 0.9091
+      },
+      {
+       "label": "Review threshold",
+       "value": 0.2336
+      },
+      {
+       "label": "Recommended for review",
+       "value": "yes"
+      },
+      {
+       "label": "Model",
+       "value": "claims-review v1"
+      }
+     ]
+    },
+    {
+     "id": "E3",
+     "tool": "explanation",
+     "title": "Why the model gave this score (SHAP, largest effect first)",
+     "source": {
+      "table": "risk_predictions",
+      "id": "CLM-023615",
+      "method": "SHAP on the stored model inputs"
+     },
+     "facts": [
+      {
+       "label": "Amount vs category median = 12.15",
+       "value": "raises the risk by 1.86 (log-odds)"
+      },
+      {
+       "label": "Days since previous claim = 47",
+       "value": "raises the risk by 0.46 (log-odds)"
+      },
+      {
+       "label": "Claims in the last 12 months = 7",
+       "value": "raises the risk by 0.44 (log-odds)"
+      },
+      {
+       "label": "Claim amount = 14,748.55",
+       "value": "raises the risk by 0.11 (log-odds)"
+      },
+      {
+       "label": "Supporting documents = 2",
+       "value": "raises the risk by 0.07 (log-odds)"
+      },
+      {
+       "label": "Claim category = health",
+       "value": "lowers the risk by 0.06 (log-odds)"
+      },
+      {
+       "label": "Policy age (days) = 1,736",
+       "value": "lowers the risk by 0.04 (log-odds)"
+      }
+     ]
+    },
+    {
+     "id": "E4",
+     "tool": "anomaly",
+     "title": "Unusual-claim check",
+     "source": {
+      "table": "anomaly_results",
+      "id": 23615
+     },
+     "facts": [
+      {
+       "label": "Flagged unusual",
+       "value": "no: NOT among the most unusual 2% of claims"
+      },
+      {
+       "label": "Anomaly score (higher = more unusual)",
+       "value": 0.571
+      },
+      {
+       "label": "Flag threshold (flagged if the score is above it)",
+       "value": 0.608
+      },
+      {
+       "label": "Model",
+       "value": "claims-anomaly v1"
+      }
+     ]
+    },
+    {
+     "id": "E5",
+     "tool": "history",
+     "title": "Customer claim history",
+     "source": {
+      "table": "claims",
+      "id": "CUS-01520"
+     },
+     "facts": [
+      {
+       "label": "Earlier claims by this customer (all time)",
+       "value": 10
+      },
+      {
+       "label": "Claims in the last 12 months before this claim",
+       "value": 7
+      },
+      {
+       "label": "Claims in the last 14 days before this claim (used by the anomaly check, not by the risk model)",
+       "value": 0
+      },
+      {
+       "label": "Days since previous claim",
+       "value": 47
+      },
+      {
+       "label": "Earlier claims with exactly the same amount as this claim",
+       "value": 0
+      },
+      {
+       "label": "Earlier claim CLM-022050",
+       "value": "2026-01-07, health, 258.14"
+      },
+      {
+       "label": "Earlier claim CLM-021420",
+       "value": "2025-12-18, vehicle, 2,215.75"
+      },
+      {
+       "label": "Earlier claim CLM-021171",
+       "value": "2025-12-10, vehicle, 3,923.24"
+      },
+      {
+       "label": "Earlier claim CLM-018246",
+       "value": "2025-08-17, health, 1,019.06"
+      },
+      {
+       "label": "Earlier claim CLM-017142",
+       "value": "2025-07-11, vehicle, 11,497.72"
+      }
+     ]
+    },
+    {
+     "id": "E6",
+     "tool": "category",
+     "title": "Category baseline: health",
+     "source": {
+      "table": "claims",
+      "id": "category=health"
+     },
+     "facts": [
+      {
+       "label": "Claims in category health",
+       "value": 6350
+      },
+      {
+       "label": "Share of past claims in this category that needed manual review",
+       "value": "11.3%"
+      },
+      {
+       "label": "Share of past claims in ALL categories that needed manual review",
+       "value": "12.4%"
+      },
+      {
+       "label": "Typical (median) claim amount in this category, from training data",
+       "value": "1,213.47"
+      },
+      {
+       "label": "This claim's amount divided by that median",
+       "value": "12.15"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "highest risk score",
+   "claim_id": "CLM-026890",
+   "seconds": 158,
+   "steps": [
+    "plan",
+    "gather_evidence",
+    "analysis",
+    "verification",
+    "report"
+   ],
+   "retries": 0,
+   "passed": 5,
+   "failed": 0,
+   "summary": "Risk score 0.9091 against a review threshold of 0.2336: recommended for manual review. Flagged as unusual by the anomaly check. Biggest factors raising the score: amount vs category median and claims in the last 12 months.",
+   "findings": [
+    {
+     "text": "The model scored this claim as high risk because the claim amount is 15.71 times the median for the travel category, which significantly raises the risk.",
+     "evidence": [
+      "E1",
+      "E6"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim is flagged as unusual, with an anomaly score of 0.668, which is above the threshold of 0.608, indicating it is among the most unusual 2% of claims.",
+     "evidence": [
+      "E4"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The customer has a history of 16 claims, with 8 in the last 12 months, which raises the risk by 0.47 (log-odds) according to the model.",
+     "evidence": [
+      "E5",
+      "E3"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim amount is higher than the median for the travel category, contributing to the high risk score, while the travel category itself has a manual review rate slightly below the overall rate.",
+     "evidence": [
+      "E6",
+      "E3"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The days since the previous claim (9 days) and the number of claims in the last 12 months (8) both contribute to the risk score.",
+     "evidence": [
+      "E3",
+      "E5"
+     ],
+     "problems": []
+    }
+   ],
+   "unverified": [],
+   "questions": [
+    "Does the supporting documentation adequately justify the claim amount of 6,293.93?",
+    "Is there any evidence in the documents that explains why this claim is significantly higher than the median for the travel category?",
+    "Are the dates and details of the previous claims consistent with the current claim?"
+   ],
+   "evidence": [
+    {
+     "id": "E1",
+     "tool": "claim",
+     "title": "Claim record",
+     "source": {
+      "table": "claims",
+      "id": "CLM-026890"
+     },
+     "facts": [
+      {
+       "label": "Claim",
+       "value": "CLM-026890"
+      },
+      {
+       "label": "Customer",
+       "value": "CUS-09569"
+      },
+      {
+       "label": "Region",
+       "value": "west"
+      },
+      {
+       "label": "Category",
+       "value": "travel"
+      },
+      {
+       "label": "Claim amount",
+       "value": "6,293.93"
+      },
+      {
+       "label": "Claim date",
+       "value": "2026-07-01"
+      },
+      {
+       "label": "Policy start date",
+       "value": "2020-04-22"
+      },
+      {
+       "label": "Supporting documents",
+       "value": 2
+      }
+     ]
+    },
+    {
+     "id": "E2",
+     "tool": "risk",
+     "title": "Risk score",
+     "source": {
+      "table": "risk_predictions",
+      "id": 57056
+     },
+     "facts": [
+      {
+       "label": "Risk score (probability the claim needs manual review)",
+       "value": 0.9091
+      },
+      {
+       "label": "Review threshold",
+       "value": 0.2336
+      },
+      {
+       "label": "Recommended for review",
+       "value": "yes"
+      },
+      {
+       "label": "Model",
+       "value": "claims-review v1"
+      }
+     ]
+    },
+    {
+     "id": "E3",
+     "tool": "explanation",
+     "title": "Why the model gave this score (SHAP, largest effect first)",
+     "source": {
+      "table": "risk_predictions",
+      "id": "CLM-026890",
+      "method": "SHAP on the stored model inputs"
+     },
+     "facts": [
+      {
+       "label": "Amount vs category median = 15.71",
+       "value": "raises the risk by 1.76 (log-odds)"
+      },
+      {
+       "label": "Claims in the last 12 months = 8",
+       "value": "raises the risk by 0.47 (log-odds)"
+      },
+      {
+       "label": "Days since previous claim = 9",
+       "value": "raises the risk by 0.44 (log-odds)"
+      },
+      {
+       "label": "Claim amount = 6,293.93",
+       "value": "raises the risk by 0.08 (log-odds)"
+      },
+      {
+       "label": "Supporting documents = 2",
+       "value": "raises the risk by 0.07 (log-odds)"
+      },
+      {
+       "label": "Policy age (days) = 2,261",
+       "value": "lowers the risk by 0.04 (log-odds)"
+      },
+      {
+       "label": "Claim category = travel",
+       "value": "lowers the risk by 0.00 (log-odds)"
+      }
+     ]
+    },
+    {
+     "id": "E4",
+     "tool": "anomaly",
+     "title": "Unusual-claim check",
+     "source": {
+      "table": "anomaly_results",
+      "id": 26890
+     },
+     "facts": [
+      {
+       "label": "Flagged unusual",
+       "value": "yes: among the most unusual 2% of claims"
+      },
+      {
+       "label": "Anomaly score (higher = more unusual)",
+       "value": 0.668
+      },
+      {
+       "label": "Flag threshold (flagged if the score is above it)",
+       "value": 0.608
+      },
+      {
+       "label": "Model",
+       "value": "claims-anomaly v1"
+      }
+     ]
+    },
+    {
+     "id": "E5",
+     "tool": "history",
+     "title": "Customer claim history",
+     "source": {
+      "table": "claims",
+      "id": "CUS-09569"
+     },
+     "facts": [
+      {
+       "label": "Earlier claims by this customer (all time)",
+       "value": 16
+      },
+      {
+       "label": "Claims in the last 12 months before this claim",
+       "value": 8
+      },
+      {
+       "label": "Claims in the last 14 days before this claim (used by the anomaly check, not by the risk model)",
+       "value": 1
+      },
+      {
+       "label": "Days since previous claim",
+       "value": 9
+      },
+      {
+       "label": "Earlier claims with exactly the same amount as this claim",
+       "value": 0
+      },
+      {
+       "label": "Earlier claim CLM-026668",
+       "value": "2026-06-22, travel, 167.60"
+      },
+      {
+       "label": "Earlier claim CLM-026353",
+       "value": "2026-06-09, travel, 471.82"
+      },
+      {
+       "label": "Earlier claim CLM-024763",
+       "value": "2026-04-05, travel, 133.56"
+      },
+      {
+       "label": "Earlier claim CLM-021835",
+       "value": "2025-12-30, device, 732.88"
+      },
+      {
+       "label": "Earlier claim CLM-021096",
+       "value": "2025-12-07, vehicle, 3,554.17"
+      }
+     ]
+    },
+    {
+     "id": "E6",
+     "tool": "category",
+     "title": "Category baseline: travel",
+     "source": {
+      "table": "claims",
+      "id": "category=travel"
+     },
+     "facts": [
+      {
+       "label": "Claims in category travel",
+       "value": 4439
+      },
+      {
+       "label": "Share of past claims in this category that needed manual review",
+       "value": "11.8%"
+      },
+      {
+       "label": "Share of past claims in ALL categories that needed manual review",
+       "value": "12.4%"
+      },
+      {
+       "label": "Typical (median) claim amount in this category, from training data",
+       "value": "400.74"
+      },
+      {
+       "label": "This claim's amount divided by that median",
+       "value": "15.71"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "just above the threshold",
+   "claim_id": "CLM-013178",
+   "seconds": 279,
+   "steps": [
+    "plan",
+    "gather_evidence",
+    "analysis",
+    "verification",
+    "analysis",
+    "verification",
+    "report"
+   ],
+   "retries": 1,
+   "passed": 4,
+   "failed": 1,
+   "summary": "Risk score 0.2336 against a review threshold of 0.2336: recommended for manual review. Not flagged as unusual. Biggest factors raising the score: days since previous claim and amount vs category median.",
+   "findings": [
+    {
+     "text": "The model scored this claim as needing review because the days since the previous claim (48) and the amount vs category median (1.19) both raised the risk, along with having one supporting document.",
+     "evidence": [
+      "E2",
+      "E3"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim is not flagged as unusual, but its anomaly score (0.41) is below the threshold for the 2% most unusual claims (0.608), indicating it does not appear to have significant irregularities.",
+     "evidence": [
+      "E4"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim amount (372.09) is higher than the typical median for the device category (312.06), which increases the risk score by 0.38 in log-odds.",
+     "evidence": [
+      "E3",
+      "E6"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The policy age (1,746 days) and claim amount (372.09) both lowered the risk score by 0.07 and 0.02 in log-odds, respectively.",
+     "evidence": [
+      "E3"
+     ],
+     "problems": []
+    }
+   ],
+   "unverified": [
+    {
+     "text": "The customer has a history of three claims, with two in the last 12 months, and this claim is the third in the device category, which has a higher rate of manual review (13.6%) compared to all categories (12.4%).",
+     "evidence": [
+      "E5",
+      "E6"
+     ],
+     "problems": [
+      "says 12 is \"higher\" 13.6%, which is the wrong way round"
+     ]
+    }
+   ],
+   "questions": [
+    "Does the supporting document (ID: 1) adequately justify the claim amount of 372.09?",
+    "Is the claim amount of 372.09 consistent with the customer's previous device claims, such as CLM-000797 (396.44)?",
+    "Are the days since the previous claim (48) and the number of claims in the last 12 months (2) consistent with the customer's claim history?"
+   ],
+   "evidence": [
+    {
+     "id": "E1",
+     "tool": "claim",
+     "title": "Claim record",
+     "source": {
+      "table": "claims",
+      "id": "CLM-013178"
+     },
+     "facts": [
+      {
+       "label": "Claim",
+       "value": "CLM-013178"
+      },
+      {
+       "label": "Customer",
+       "value": "CUS-04947"
+      },
+      {
+       "label": "Region",
+       "value": "central"
+      },
+      {
+       "label": "Category",
+       "value": "device"
+      },
+      {
+       "label": "Claim amount",
+       "value": "372.09"
+      },
+      {
+       "label": "Claim date",
+       "value": "2025-02-09"
+      },
+      {
+       "label": "Policy start date",
+       "value": "2020-04-30"
+      },
+      {
+       "label": "Supporting documents",
+       "value": 1
+      }
+     ]
+    },
+    {
+     "id": "E2",
+     "tool": "risk",
+     "title": "Risk score",
+     "source": {
+      "table": "risk_predictions",
+      "id": 43344
+     },
+     "facts": [
+      {
+       "label": "Risk score (probability the claim needs manual review)",
+       "value": 0.2336
+      },
+      {
+       "label": "Review threshold",
+       "value": 0.2336
+      },
+      {
+       "label": "Recommended for review",
+       "value": "yes"
+      },
+      {
+       "label": "Model",
+       "value": "claims-review v1"
+      }
+     ]
+    },
+    {
+     "id": "E3",
+     "tool": "explanation",
+     "title": "Why the model gave this score (SHAP, largest effect first)",
+     "source": {
+      "table": "risk_predictions",
+      "id": "CLM-013178",
+      "method": "SHAP on the stored model inputs"
+     },
+     "facts": [
+      {
+       "label": "Days since previous claim = 48",
+       "value": "raises the risk by 0.63 (log-odds)"
+      },
+      {
+       "label": "Amount vs category median = 1.19",
+       "value": "raises the risk by 0.38 (log-odds)"
+      },
+      {
+       "label": "Supporting documents = 1",
+       "value": "raises the risk by 0.27 (log-odds)"
+      },
+      {
+       "label": "Claims in the last 12 months = 2",
+       "value": "raises the risk by 0.11 (log-odds)"
+      },
+      {
+       "label": "Claim category = device",
+       "value": "raises the risk by 0.07 (log-odds)"
+      },
+      {
+       "label": "Policy age (days) = 1,746",
+       "value": "lowers the risk by 0.07 (log-odds)"
+      },
+      {
+       "label": "Claim amount = 372.09",
+       "value": "lowers the risk by 0.02 (log-odds)"
+      }
+     ]
+    },
+    {
+     "id": "E4",
+     "tool": "anomaly",
+     "title": "Unusual-claim check",
+     "source": {
+      "table": "anomaly_results",
+      "id": 13178
+     },
+     "facts": [
+      {
+       "label": "Flagged unusual",
+       "value": "no: NOT among the most unusual 2% of claims"
+      },
+      {
+       "label": "Anomaly score (higher = more unusual)",
+       "value": 0.41
+      },
+      {
+       "label": "Flag threshold (flagged if the score is above it)",
+       "value": 0.608
+      },
+      {
+       "label": "Model",
+       "value": "claims-anomaly v1"
+      }
+     ]
+    },
+    {
+     "id": "E5",
+     "tool": "history",
+     "title": "Customer claim history",
+     "source": {
+      "table": "claims",
+      "id": "CUS-04947"
+     },
+     "facts": [
+      {
+       "label": "Earlier claims by this customer (all time)",
+       "value": 3
+      },
+      {
+       "label": "Claims in the last 12 months before this claim",
+       "value": 2
+      },
+      {
+       "label": "Claims in the last 14 days before this claim (used by the anomaly check, not by the risk model)",
+       "value": 0
+      },
+      {
+       "label": "Days since previous claim",
+       "value": 48
+      },
+      {
+       "label": "Earlier claims with exactly the same amount as this claim",
+       "value": 0
+      },
+      {
+       "label": "Earlier claim CLM-011600",
+       "value": "2024-12-23, health, 866.55"
+      },
+      {
+       "label": "Earlier claim CLM-010820",
+       "value": "2024-11-28, health, 1,057.74"
+      },
+      {
+       "label": "Earlier claim CLM-000797",
+       "value": "2023-11-29, device, 396.44"
+      }
+     ]
+    },
+    {
+     "id": "E6",
+     "tool": "category",
+     "title": "Category baseline: device",
+     "source": {
+      "table": "claims",
+      "id": "category=device"
+     },
+     "facts": [
+      {
+       "label": "Claims in category device",
+       "value": 4192
+      },
+      {
+       "label": "Share of past claims in this category that needed manual review",
+       "value": "13.6%"
+      },
+      {
+       "label": "Share of past claims in ALL categories that needed manual review",
+       "value": "12.4%"
+      },
+      {
+       "label": "Typical (median) claim amount in this category, from training data",
+       "value": "312.06"
+      },
+      {
+       "label": "This claim's amount divided by that median",
+       "value": "1.19"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "just above the threshold",
+   "claim_id": "CLM-016834",
+   "seconds": 145,
+   "steps": [
+    "plan",
+    "gather_evidence",
+    "analysis",
+    "verification",
+    "report"
+   ],
+   "retries": 0,
+   "passed": 5,
+   "failed": 0,
+   "summary": "Risk score 0.2336 against a review threshold of 0.2336: recommended for manual review. Not flagged as unusual. Biggest factors raising the score: claims in the last 12 months and amount vs category median.",
+   "findings": [
+    {
+     "text": "The model scored this claim as needing review because the number of claims in the last 12 months (7) and the amount vs category median (1.18) both raised the risk score significantly.",
+     "evidence": [
+      "E2",
+      "E3"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim is not flagged as unusual, but it has an anomaly score of 0.491, which is below the flag threshold of 0.608.",
+     "evidence": [
+      "E4"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The customer has a history of 10 claims, with 7 in the last 12 months, which is above the category baseline for device claims and may indicate higher risk.",
+     "evidence": [
+      "E5",
+      "E6"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim amount (367.88) is 1.18 times the median for device claims, which contributes to the higher risk score.",
+     "evidence": [
+      "E3",
+      "E6"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim amount (367.88) lowers the risk score slightly compared to the model's expectations, but this effect is smaller than other factors.",
+     "evidence": [
+      "E3"
+     ],
+     "problems": []
+    }
+   ],
+   "unverified": [],
+   "questions": [
+    "Does the claim document provide sufficient detail to support the device claim amount of 367.88?",
+    "Are the supporting documents consistent with the customer's previous claims in the device category?",
+    "Is there any evidence in the documents that explains the high number of claims in the last 12 months?"
+   ],
+   "evidence": [
+    {
+     "id": "E1",
+     "tool": "claim",
+     "title": "Claim record",
+     "source": {
+      "table": "claims",
+      "id": "CLM-016834"
+     },
+     "facts": [
+      {
+       "label": "Claim",
+       "value": "CLM-016834"
+      },
+      {
+       "label": "Customer",
+       "value": "CUS-05352"
+      },
+      {
+       "label": "Region",
+       "value": "east"
+      },
+      {
+       "label": "Category",
+       "value": "device"
+      },
+      {
+       "label": "Claim amount",
+       "value": "367.88"
+      },
+      {
+       "label": "Claim date",
+       "value": "2025-07-01"
+      },
+      {
+       "label": "Policy start date",
+       "value": "2023-05-09"
+      },
+      {
+       "label": "Supporting documents",
+       "value": 2
+      }
+     ]
+    },
+    {
+     "id": "E2",
+     "tool": "risk",
+     "title": "Risk score",
+     "source": {
+      "table": "risk_predictions",
+      "id": 47000
+     },
+     "facts": [
+      {
+       "label": "Risk score (probability the claim needs manual review)",
+       "value": 0.2336
+      },
+      {
+       "label": "Review threshold",
+       "value": 0.2336
+      },
+      {
+       "label": "Recommended for review",
+       "value": "yes"
+      },
+      {
+       "label": "Model",
+       "value": "claims-review v1"
+      }
+     ]
+    },
+    {
+     "id": "E3",
+     "tool": "explanation",
+     "title": "Why the model gave this score (SHAP, largest effect first)",
+     "source": {
+      "table": "risk_predictions",
+      "id": "CLM-016834",
+      "method": "SHAP on the stored model inputs"
+     },
+     "facts": [
+      {
+       "label": "Claims in the last 12 months = 7",
+       "value": "raises the risk by 0.63 (log-odds)"
+      },
+      {
+       "label": "Amount vs category median = 1.18",
+       "value": "raises the risk by 0.50 (log-odds)"
+      },
+      {
+       "label": "Supporting documents = 2",
+       "value": "raises the risk by 0.11 (log-odds)"
+      },
+      {
+       "label": "Claim category = device",
+       "value": "raises the risk by 0.10 (log-odds)"
+      },
+      {
+       "label": "Days since previous claim = 127",
+       "value": "lowers the risk by 0.10 (log-odds)"
+      },
+      {
+       "label": "Policy age (days) = 784",
+       "value": "raises the risk by 0.09 (log-odds)"
+      },
+      {
+       "label": "Claim amount = 367.88",
+       "value": "lowers the risk by 0.02 (log-odds)"
+      }
+     ]
+    },
+    {
+     "id": "E4",
+     "tool": "anomaly",
+     "title": "Unusual-claim check",
+     "source": {
+      "table": "anomaly_results",
+      "id": 16834
+     },
+     "facts": [
+      {
+       "label": "Flagged unusual",
+       "value": "no: NOT among the most unusual 2% of claims"
+      },
+      {
+       "label": "Anomaly score (higher = more unusual)",
+       "value": 0.491
+      },
+      {
+       "label": "Flag threshold (flagged if the score is above it)",
+       "value": 0.608
+      },
+      {
+       "label": "Model",
+       "value": "claims-anomaly v1"
+      }
+     ]
+    },
+    {
+     "id": "E5",
+     "tool": "history",
+     "title": "Customer claim history",
+     "source": {
+      "table": "claims",
+      "id": "CUS-05352"
+     },
+     "facts": [
+      {
+       "label": "Earlier claims by this customer (all time)",
+       "value": 10
+      },
+      {
+       "label": "Claims in the last 12 months before this claim",
+       "value": 7
+      },
+      {
+       "label": "Claims in the last 14 days before this claim (used by the anomaly check, not by the risk model)",
+       "value": 0
+      },
+      {
+       "label": "Days since previous claim",
+       "value": 127
+      },
+      {
+       "label": "Earlier claims with exactly the same amount as this claim",
+       "value": 0
+      },
+      {
+       "label": "Earlier claim CLM-013643",
+       "value": "2025-02-24, vehicle, 2,172.93"
+      },
+      {
+       "label": "Earlier claim CLM-013503",
+       "value": "2025-02-19, travel, 358.75"
+      },
+      {
+       "label": "Earlier claim CLM-011013",
+       "value": "2024-12-04, home, 453.33"
+      },
+      {
+       "label": "Earlier claim CLM-010146",
+       "value": "2024-11-03, health, 865.44"
+      },
+      {
+       "label": "Earlier claim CLM-009166",
+       "value": "2024-09-25, device, 190.19"
+      }
+     ]
+    },
+    {
+     "id": "E6",
+     "tool": "category",
+     "title": "Category baseline: device",
+     "source": {
+      "table": "claims",
+      "id": "category=device"
+     },
+     "facts": [
+      {
+       "label": "Claims in category device",
+       "value": 4192
+      },
+      {
+       "label": "Share of past claims in this category that needed manual review",
+       "value": "13.6%"
+      },
+      {
+       "label": "Share of past claims in ALL categories that needed manual review",
+       "value": "12.4%"
+      },
+      {
+       "label": "Typical (median) claim amount in this category, from training data",
+       "value": "312.06"
+      },
+      {
+       "label": "This claim's amount divided by that median",
+       "value": "1.18"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "just below the threshold",
+   "claim_id": "CLM-015858",
+   "seconds": 157,
+   "steps": [
+    "plan",
+    "gather_evidence",
+    "analysis",
+    "verification",
+    "report"
+   ],
+   "retries": 0,
+   "passed": 5,
+   "failed": 0,
+   "summary": "Risk score 0.2335 against a review threshold of 0.2336: not recommended for review. Not flagged as unusual. Biggest factors raising the score: amount vs category median and claim amount.",
+   "findings": [
+    {
+     "text": "The model scored this claim as low risk because the amount vs category median (2.42) slightly raises the risk, but other factors like the supporting documents (4) and the claim category (vehicle) have smaller effects, and the overall risk score (0.2335) is just below the review threshold (0.2336).",
+     "evidence": [
+      "E2",
+      "E3",
+      "E6"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim is not flagged as unusual, as its anomaly score (0.403) is below the flag threshold (0.608), indicating it is not among the most unusual 2% of claims.",
+     "evidence": [
+      "E4"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The customer has a history of two claims in the last 12 months, with the most recent claim being 94 days ago, which slightly raises the risk according to the model.",
+     "evidence": [
+      "E5",
+      "E3"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim amount is 2.42 times the median for the vehicle category, which significantly raises the risk according to the model.",
+     "evidence": [
+      "E3",
+      "E6"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The share of past vehicle claims that needed manual review is 12.7%, slightly higher than the 12.4% for all categories, suggesting this category has a marginally higher risk of requiring review.",
+     "evidence": [
+      "E6"
+     ],
+     "problems": []
+    }
+   ],
+   "unverified": [],
+   "questions": [
+    "What is the reason for the claim amount being 2.42 times the median for the vehicle category?",
+    "Are the supporting documents provided sufficient to justify the claim amount?",
+    "Is there any additional information in the claim documents that could explain the higher risk score?"
+   ],
+   "evidence": [
+    {
+     "id": "E1",
+     "tool": "claim",
+     "title": "Claim record",
+     "source": {
+      "table": "claims",
+      "id": "CLM-015858"
+     },
+     "facts": [
+      {
+       "label": "Claim",
+       "value": "CLM-015858"
+      },
+      {
+       "label": "Customer",
+       "value": "CUS-04056"
+      },
+      {
+       "label": "Region",
+       "value": "north"
+      },
+      {
+       "label": "Category",
+       "value": "vehicle"
+      },
+      {
+       "label": "Claim amount",
+       "value": "8,875.55"
+      },
+      {
+       "label": "Claim date",
+       "value": "2025-05-22"
+      },
+      {
+       "label": "Policy start date",
+       "value": "2022-07-08"
+      },
+      {
+       "label": "Supporting documents",
+       "value": 4
+      }
+     ]
+    },
+    {
+     "id": "E2",
+     "tool": "risk",
+     "title": "Risk score",
+     "source": {
+      "table": "risk_predictions",
+      "id": 46024
+     },
+     "facts": [
+      {
+       "label": "Risk score (probability the claim needs manual review)",
+       "value": 0.2335
+      },
+      {
+       "label": "Review threshold",
+       "value": 0.2336
+      },
+      {
+       "label": "Recommended for review",
+       "value": "no"
+      },
+      {
+       "label": "Model",
+       "value": "claims-review v1"
+      }
+     ]
+    },
+    {
+     "id": "E3",
+     "tool": "explanation",
+     "title": "Why the model gave this score (SHAP, largest effect first)",
+     "source": {
+      "table": "risk_predictions",
+      "id": "CLM-015858",
+      "method": "SHAP on the stored model inputs"
+     },
+     "facts": [
+      {
+       "label": "Amount vs category median = 2.42",
+       "value": "raises the risk by 0.89 (log-odds)"
+      },
+      {
+       "label": "Claim amount = 8,875.55",
+       "value": "raises the risk by 0.16 (log-odds)"
+      },
+      {
+       "label": "Supporting documents = 4",
+       "value": "lowers the risk by 0.09 (log-odds)"
+      },
+      {
+       "label": "Policy age (days) = 1,049",
+       "value": "raises the risk by 0.07 (log-odds)"
+      },
+      {
+       "label": "Claims in the last 12 months = 2",
+       "value": "raises the risk by 0.07 (log-odds)"
+      },
+      {
+       "label": "Days since previous claim = 94",
+       "value": "raises the risk by 0.03 (log-odds)"
+      },
+      {
+       "label": "Claim category = vehicle",
+       "value": "raises the risk by 0.03 (log-odds)"
+      }
+     ]
+    },
+    {
+     "id": "E4",
+     "tool": "anomaly",
+     "title": "Unusual-claim check",
+     "source": {
+      "table": "anomaly_results",
+      "id": 15858
+     },
+     "facts": [
+      {
+       "label": "Flagged unusual",
+       "value": "no: NOT among the most unusual 2% of claims"
+      },
+      {
+       "label": "Anomaly score (higher = more unusual)",
+       "value": 0.403
+      },
+      {
+       "label": "Flag threshold (flagged if the score is above it)",
+       "value": 0.608
+      },
+      {
+       "label": "Model",
+       "value": "claims-anomaly v1"
+      }
+     ]
+    },
+    {
+     "id": "E5",
+     "tool": "history",
+     "title": "Customer claim history",
+     "source": {
+      "table": "claims",
+      "id": "CUS-04056"
+     },
+     "facts": [
+      {
+       "label": "Earlier claims by this customer (all time)",
+       "value": 2
+      },
+      {
+       "label": "Claims in the last 12 months before this claim",
+       "value": 2
+      },
+      {
+       "label": "Claims in the last 14 days before this claim (used by the anomaly check, not by the risk model)",
+       "value": 0
+      },
+      {
+       "label": "Days since previous claim",
+       "value": 94
+      },
+      {
+       "label": "Earlier claims with exactly the same amount as this claim",
+       "value": 0
+      },
+      {
+       "label": "Earlier claim CLM-013445",
+       "value": "2025-02-17, vehicle, 9,647.97"
+      },
+      {
+       "label": "Earlier claim CLM-011789",
+       "value": "2024-12-29, vehicle, 2,335.48"
+      }
+     ]
+    },
+    {
+     "id": "E6",
+     "tool": "category",
+     "title": "Category baseline: vehicle",
+     "source": {
+      "table": "claims",
+      "id": "category=vehicle"
+     },
+     "facts": [
+      {
+       "label": "Claims in category vehicle",
+       "value": 9213
+      },
+      {
+       "label": "Share of past claims in this category that needed manual review",
+       "value": "12.7%"
+      },
+      {
+       "label": "Share of past claims in ALL categories that needed manual review",
+       "value": "12.4%"
+      },
+      {
+       "label": "Typical (median) claim amount in this category, from training data",
+       "value": "3,661.55"
+      },
+      {
+       "label": "This claim's amount divided by that median",
+       "value": "2.42"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "just below the threshold",
+   "claim_id": "CLM-004963",
+   "seconds": 167,
+   "steps": [
+    "plan",
+    "gather_evidence",
+    "analysis",
+    "verification",
+    "report"
+   ],
+   "retries": 0,
+   "passed": 5,
+   "failed": 0,
+   "summary": "Risk score 0.2333 against a review threshold of 0.2336: not recommended for review. Not flagged as unusual. Biggest factors raising the score: days since previous claim and amount vs category median.",
+   "findings": [
+    {
+     "text": "The model scored this claim as low risk because the policy age (291 days) and claim amount (459.05) both lowered the risk, offsetting factors like days since previous claim (9) and amount vs category median (1.15) that raised the risk.",
+     "evidence": [
+      "E2",
+      "E3"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim is not flagged as unusual, as its anomaly score (0.572) is below the flag threshold (0.608), indicating it is not among the most unusual 2% of claims.",
+     "evidence": [
+      "E4"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The customer has a history of 2 claims in the last 12 months, with a recent claim (CLM-004734) in the health category, which may suggest a pattern of frequent claims.",
+     "evidence": [
+      "E5"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim amount (459.05) is higher than the typical median for the travel category (400.74), contributing to a higher risk score based on the amount vs category median factor.",
+     "evidence": [
+      "E3",
+      "E6"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The share of past travel claims needing manual review (11.8%) is slightly lower than the overall rate across all categories (12.4%), suggesting this claim is somewhat less risky relative to its category.",
+     "evidence": [
+      "E6"
+     ],
+     "problems": []
+    }
+   ],
+   "unverified": [],
+   "questions": [
+    "Does the supporting document (ID 1) provide sufficient evidence for the travel claim amount of 459.05?",
+    "Is the claim date (2024-04-14) consistent with the policy start date (2023-06-28) and the customer's claim history?",
+    "Are there any additional details in the claim that could explain the higher amount vs category median factor (1.15)?"
+   ],
+   "evidence": [
+    {
+     "id": "E1",
+     "tool": "claim",
+     "title": "Claim record",
+     "source": {
+      "table": "claims",
+      "id": "CLM-004963"
+     },
+     "facts": [
+      {
+       "label": "Claim",
+       "value": "CLM-004963"
+      },
+      {
+       "label": "Customer",
+       "value": "CUS-08482"
+      },
+      {
+       "label": "Region",
+       "value": "north"
+      },
+      {
+       "label": "Category",
+       "value": "travel"
+      },
+      {
+       "label": "Claim amount",
+       "value": "459.05"
+      },
+      {
+       "label": "Claim date",
+       "value": "2024-04-14"
+      },
+      {
+       "label": "Policy start date",
+       "value": "2023-06-28"
+      },
+      {
+       "label": "Supporting documents",
+       "value": 1
+      }
+     ]
+    },
+    {
+     "id": "E2",
+     "tool": "risk",
+     "title": "Risk score",
+     "source": {
+      "table": "risk_predictions",
+      "id": 35129
+     },
+     "facts": [
+      {
+       "label": "Risk score (probability the claim needs manual review)",
+       "value": 0.2333
+      },
+      {
+       "label": "Review threshold",
+       "value": 0.2336
+      },
+      {
+       "label": "Recommended for review",
+       "value": "no"
+      },
+      {
+       "label": "Model",
+       "value": "claims-review v1"
+      }
+     ]
+    },
+    {
+     "id": "E3",
+     "tool": "explanation",
+     "title": "Why the model gave this score (SHAP, largest effect first)",
+     "source": {
+      "table": "risk_predictions",
+      "id": "CLM-004963",
+      "method": "SHAP on the stored model inputs"
+     },
+     "facts": [
+      {
+       "label": "Days since previous claim = 9",
+       "value": "raises the risk by 0.62 (log-odds)"
+      },
+      {
+       "label": "Amount vs category median = 1.15",
+       "value": "raises the risk by 0.31 (log-odds)"
+      },
+      {
+       "label": "Supporting documents = 1",
+       "value": "raises the risk by 0.28 (log-odds)"
+      },
+      {
+       "label": "Policy age (days) = 291",
+       "value": "lowers the risk by 0.20 (log-odds)"
+      },
+      {
+       "label": "Claims in the last 12 months = 2",
+       "value": "raises the risk by 0.11 (log-odds)"
+      },
+      {
+       "label": "Claim amount = 459.05",
+       "value": "lowers the risk by 0.11 (log-odds)"
+      },
+      {
+       "label": "Claim category = travel",
+       "value": "raises the risk by 0.01 (log-odds)"
+      }
+     ]
+    },
+    {
+     "id": "E4",
+     "tool": "anomaly",
+     "title": "Unusual-claim check",
+     "source": {
+      "table": "anomaly_results",
+      "id": 4963
+     },
+     "facts": [
+      {
+       "label": "Flagged unusual",
+       "value": "no: NOT among the most unusual 2% of claims"
+      },
+      {
+       "label": "Anomaly score (higher = more unusual)",
+       "value": 0.572
+      },
+      {
+       "label": "Flag threshold (flagged if the score is above it)",
+       "value": 0.608
+      },
+      {
+       "label": "Model",
+       "value": "claims-anomaly v1"
+      }
+     ]
+    },
+    {
+     "id": "E5",
+     "tool": "history",
+     "title": "Customer claim history",
+     "source": {
+      "table": "claims",
+      "id": "CUS-08482"
+     },
+     "facts": [
+      {
+       "label": "Earlier claims by this customer (all time)",
+       "value": 2
+      },
+      {
+       "label": "Claims in the last 12 months before this claim",
+       "value": 2
+      },
+      {
+       "label": "Claims in the last 14 days before this claim (used by the anomaly check, not by the risk model)",
+       "value": 1
+      },
+      {
+       "label": "Days since previous claim",
+       "value": 9
+      },
+      {
+       "label": "Earlier claims with exactly the same amount as this claim",
+       "value": 0
+      },
+      {
+       "label": "Earlier claim CLM-004734",
+       "value": "2024-04-05, health, 868.59"
+      },
+      {
+       "label": "Earlier claim CLM-003093",
+       "value": "2024-02-09, home, 792.24"
+      }
+     ]
+    },
+    {
+     "id": "E6",
+     "tool": "category",
+     "title": "Category baseline: travel",
+     "source": {
+      "table": "claims",
+      "id": "category=travel"
+     },
+     "facts": [
+      {
+       "label": "Claims in category travel",
+       "value": 4439
+      },
+      {
+       "label": "Share of past claims in this category that needed manual review",
+       "value": "11.8%"
+      },
+      {
+       "label": "Share of past claims in ALL categories that needed manual review",
+       "value": "12.4%"
+      },
+      {
+       "label": "Typical (median) claim amount in this category, from training data",
+       "value": "400.74"
+      },
+      {
+       "label": "This claim's amount divided by that median",
+       "value": "1.15"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "unusual but not recommended",
+   "claim_id": "CLM-000673",
+   "seconds": 148,
+   "steps": [
+    "plan",
+    "gather_evidence",
+    "analysis",
+    "verification",
+    "report"
+   ],
+   "retries": 0,
+   "passed": 5,
+   "failed": 0,
+   "summary": "Risk score 0.0225 against a review threshold of 0.2336: not recommended for review. Flagged as unusual by the anomaly check. Biggest factors raising the score: days since previous claim and claim category.",
+   "findings": [
+    {
+     "text": "The model scored this claim as low risk because the claim amount is 0.27 times the median for the vehicle category, and the claim category itself raises the risk by a small amount.",
+     "evidence": [
+      "E3",
+      "E6"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim is flagged as unusual due to its high anomaly score of 0.703, which is above the flag threshold of 0.608, indicating it is among the most unusual 2% of claims.",
+     "evidence": [
+      "E4"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The customer has a history of one claim in the last 12 months, and the days since their previous claim is 3, which lowers the risk but does not indicate any significant pattern.",
+     "evidence": [
+      "E5"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The vehicle category has a 12.7% manual review rate, slightly higher than the 12.4% rate for all categories, suggesting this claim is slightly more likely to require review than average.",
+     "evidence": [
+      "E6"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim amount is significantly lower than the median for the vehicle category, which may indicate a potential anomaly or a lower-risk claim.",
+     "evidence": [
+      "E6"
+     ],
+     "problems": []
+    }
+   ],
+   "unverified": [],
+   "questions": [
+    "Does the supporting document list include any evidence that explains the claim amount of 973.17, especially given it is much lower than the median for the vehicle category?",
+    "Are there any additional details in the claim documents that could explain why this claim was flagged as unusual?",
+    "Is there any documentation in the supporting documents that provides context for the customer's claim history and the days since their previous claim?"
+   ],
+   "evidence": [
+    {
+     "id": "E1",
+     "tool": "claim",
+     "title": "Claim record",
+     "source": {
+      "table": "claims",
+      "id": "CLM-000673"
+     },
+     "facts": [
+      {
+       "label": "Claim",
+       "value": "CLM-000673"
+      },
+      {
+       "label": "Customer",
+       "value": "CUS-00449"
+      },
+      {
+       "label": "Region",
+       "value": "west"
+      },
+      {
+       "label": "Category",
+       "value": "vehicle"
+      },
+      {
+       "label": "Claim amount",
+       "value": "973.17"
+      },
+      {
+       "label": "Claim date",
+       "value": "2023-11-25"
+      },
+      {
+       "label": "Policy start date",
+       "value": "2023-10-22"
+      },
+      {
+       "label": "Supporting documents",
+       "value": 6
+      }
+     ]
+    },
+    {
+     "id": "E2",
+     "tool": "risk",
+     "title": "Risk score",
+     "source": {
+      "table": "risk_predictions",
+      "id": 30839
+     },
+     "facts": [
+      {
+       "label": "Risk score (probability the claim needs manual review)",
+       "value": 0.0225
+      },
+      {
+       "label": "Review threshold",
+       "value": 0.2336
+      },
+      {
+       "label": "Recommended for review",
+       "value": "no"
+      },
+      {
+       "label": "Model",
+       "value": "claims-review v1"
+      }
+     ]
+    },
+    {
+     "id": "E3",
+     "tool": "explanation",
+     "title": "Why the model gave this score (SHAP, largest effect first)",
+     "source": {
+      "table": "risk_predictions",
+      "id": "CLM-000673",
+      "method": "SHAP on the stored model inputs"
+     },
+     "facts": [
+      {
+       "label": "Amount vs category median = 0.27",
+       "value": "lowers the risk by 1.69 (log-odds)"
+      },
+      {
+       "label": "Days since previous claim = 3",
+       "value": "raises the risk by 0.74 (log-odds)"
+      },
+      {
+       "label": "Claims in the last 12 months = 1",
+       "value": "lowers the risk by 0.32 (log-odds)"
+      },
+      {
+       "label": "Supporting documents = 6",
+       "value": "lowers the risk by 0.22 (log-odds)"
+      },
+      {
+       "label": "Policy age (days) = 34",
+       "value": "lowers the risk by 0.13 (log-odds)"
+      },
+      {
+       "label": "Claim amount = 973.17",
+       "value": "lowers the risk by 0.03 (log-odds)"
+      },
+      {
+       "label": "Claim category = vehicle",
+       "value": "raises the risk by 0.02 (log-odds)"
+      }
+     ]
+    },
+    {
+     "id": "E4",
+     "tool": "anomaly",
+     "title": "Unusual-claim check",
+     "source": {
+      "table": "anomaly_results",
+      "id": 673
+     },
+     "facts": [
+      {
+       "label": "Flagged unusual",
+       "value": "yes: among the most unusual 2% of claims"
+      },
+      {
+       "label": "Anomaly score (higher = more unusual)",
+       "value": 0.703
+      },
+      {
+       "label": "Flag threshold (flagged if the score is above it)",
+       "value": 0.608
+      },
+      {
+       "label": "Model",
+       "value": "claims-anomaly v1"
+      }
+     ]
+    },
+    {
+     "id": "E5",
+     "tool": "history",
+     "title": "Customer claim history",
+     "source": {
+      "table": "claims",
+      "id": "CUS-00449"
+     },
+     "facts": [
+      {
+       "label": "Earlier claims by this customer (all time)",
+       "value": 1
+      },
+      {
+       "label": "Claims in the last 12 months before this claim",
+       "value": 1
+      },
+      {
+       "label": "Claims in the last 14 days before this claim (used by the anomaly check, not by the risk model)",
+       "value": 1
+      },
+      {
+       "label": "Days since previous claim",
+       "value": 3
+      },
+      {
+       "label": "Earlier claims with exactly the same amount as this claim",
+       "value": 0
+      },
+      {
+       "label": "Earlier claim CLM-000594",
+       "value": "2023-11-22, health, 1,497.94"
+      }
+     ]
+    },
+    {
+     "id": "E6",
+     "tool": "category",
+     "title": "Category baseline: vehicle",
+     "source": {
+      "table": "claims",
+      "id": "category=vehicle"
+     },
+     "facts": [
+      {
+       "label": "Claims in category vehicle",
+       "value": 9213
+      },
+      {
+       "label": "Share of past claims in this category that needed manual review",
+       "value": "12.7%"
+      },
+      {
+       "label": "Share of past claims in ALL categories that needed manual review",
+       "value": "12.4%"
+      },
+      {
+       "label": "Typical (median) claim amount in this category, from training data",
+       "value": "3,661.55"
+      },
+      {
+       "label": "This claim's amount divided by that median",
+       "value": "0.27"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "unusual but not recommended",
+   "claim_id": "CLM-028593",
+   "seconds": 176,
+   "steps": [
+    "plan",
+    "gather_evidence",
+    "analysis",
+    "verification",
+    "report"
+   ],
+   "retries": 0,
+   "passed": 5,
+   "failed": 0,
+   "summary": "Risk score 0.086 against a review threshold of 0.2336: not recommended for review. Flagged as unusual by the anomaly check. Biggest factors raising the score: days since previous claim and claims in the last 12 months.",
+   "findings": [
+    {
+     "text": "The model scored this claim as low risk because the claim amount is 0.38 times the median for the vehicle category, which lowers the risk by 1.10 (log-odds), and the supporting documents are 7, which lowers the risk by 0.34 (log-odds).",
+     "evidence": [
+      "E3",
+      "E6"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim is flagged as unusual due to an anomaly score of 0.697, which is above the flag threshold of 0.608, indicating it is among the most unusual 2% of claims.",
+     "evidence": [
+      "E4"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The customer has a history of 17 claims, with 9 in the last 12 months, which raises the risk by 0.63 (log-odds), and the days since the previous claim is 2, which raises the risk by 0.87 (log-odds).",
+     "evidence": [
+      "E3",
+      "E5"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The vehicle category has a 12.7% manual review rate, which is slightly higher than the 12.4% rate for all categories, suggesting this claim is slightly more likely to need review than average for its category.",
+     "evidence": [
+      "E6"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim amount is 1,386.98, which is lower than the typical median of 3,661.55 for the vehicle category, contributing to the lower risk score.",
+     "evidence": [
+      "E3",
+      "E6"
+     ],
+     "problems": []
+    }
+   ],
+   "unverified": [],
+   "questions": [
+    "Is there any documentation supporting the claim amount of 1,386.98 and how it relates to the vehicle damage?",
+    "Are the 7 supporting documents sufficient to justify the claim and cover all relevant details?",
+    "Is there any evidence in the documents that explains why this claim is flagged as unusual?"
+   ],
+   "evidence": [
+    {
+     "id": "E1",
+     "tool": "claim",
+     "title": "Claim record",
+     "source": {
+      "table": "claims",
+      "id": "CLM-028593"
+     },
+     "facts": [
+      {
+       "label": "Claim",
+       "value": "CLM-028593"
+      },
+      {
+       "label": "Customer",
+       "value": "CUS-02891"
+      },
+      {
+       "label": "Region",
+       "value": "south"
+      },
+      {
+       "label": "Category",
+       "value": "vehicle"
+      },
+      {
+       "label": "Claim amount",
+       "value": "1,386.98"
+      },
+      {
+       "label": "Claim date",
+       "value": "2026-08-30"
+      },
+      {
+       "label": "Policy start date",
+       "value": "2020-12-24"
+      },
+      {
+       "label": "Supporting documents",
+       "value": 7
+      }
+     ]
+    },
+    {
+     "id": "E2",
+     "tool": "risk",
+     "title": "Risk score",
+     "source": {
+      "table": "risk_predictions",
+      "id": 58759
+     },
+     "facts": [
+      {
+       "label": "Risk score (probability the claim needs manual review)",
+       "value": 0.086
+      },
+      {
+       "label": "Review threshold",
+       "value": 0.2336
+      },
+      {
+       "label": "Recommended for review",
+       "value": "no"
+      },
+      {
+       "label": "Model",
+       "value": "claims-review v1"
+      }
+     ]
+    },
+    {
+     "id": "E3",
+     "tool": "explanation",
+     "title": "Why the model gave this score (SHAP, largest effect first)",
+     "source": {
+      "table": "risk_predictions",
+      "id": "CLM-028593",
+      "method": "SHAP on the stored model inputs"
+     },
+     "facts": [
+      {
+       "label": "Amount vs category median = 0.38",
+       "value": "lowers the risk by 1.10 (log-odds)"
+      },
+      {
+       "label": "Days since previous claim = 2",
+       "value": "raises the risk by 0.87 (log-odds)"
+      },
+      {
+       "label": "Claims in the last 12 months = 9",
+       "value": "raises the risk by 0.63 (log-odds)"
+      },
+      {
+       "label": "Supporting documents = 7",
+       "value": "lowers the risk by 0.34 (log-odds)"
+      },
+      {
+       "label": "Policy age (days) = 2,075",
+       "value": "lowers the risk by 0.09 (log-odds)"
+      },
+      {
+       "label": "Claim amount = 1,386.98",
+       "value": "lowers the risk by 0.04 (log-odds)"
+      },
+      {
+       "label": "Claim category = vehicle",
+       "value": "raises the risk by 0.01 (log-odds)"
+      }
+     ]
+    },
+    {
+     "id": "E4",
+     "tool": "anomaly",
+     "title": "Unusual-claim check",
+     "source": {
+      "table": "anomaly_results",
+      "id": 28593
+     },
+     "facts": [
+      {
+       "label": "Flagged unusual",
+       "value": "yes: among the most unusual 2% of claims"
+      },
+      {
+       "label": "Anomaly score (higher = more unusual)",
+       "value": 0.697
+      },
+      {
+       "label": "Flag threshold (flagged if the score is above it)",
+       "value": 0.608
+      },
+      {
+       "label": "Model",
+       "value": "claims-anomaly v1"
+      }
+     ]
+    },
+    {
+     "id": "E5",
+     "tool": "history",
+     "title": "Customer claim history",
+     "source": {
+      "table": "claims",
+      "id": "CUS-02891"
+     },
+     "facts": [
+      {
+       "label": "Earlier claims by this customer (all time)",
+       "value": 17
+      },
+      {
+       "label": "Claims in the last 12 months before this claim",
+       "value": 9
+      },
+      {
+       "label": "Claims in the last 14 days before this claim (used by the anomaly check, not by the risk model)",
+       "value": 1
+      },
+      {
+       "label": "Days since previous claim",
+       "value": 2
+      },
+      {
+       "label": "Earlier claims with exactly the same amount as this claim",
+       "value": 0
+      },
+      {
+       "label": "Earlier claim CLM-028535",
+       "value": "2026-08-28, travel, 359.36"
+      },
+      {
+       "label": "Earlier claim CLM-027614",
+       "value": "2026-07-27, travel, 1,559.39"
+      },
+      {
+       "label": "Earlier claim CLM-027194",
+       "value": "2026-07-12, health, 2,499.73"
+      },
+      {
+       "label": "Earlier claim CLM-026077",
+       "value": "2026-05-31, health, 692.68"
+      },
+      {
+       "label": "Earlier claim CLM-022945",
+       "value": "2026-02-03, health, 575.28"
+      }
+     ]
+    },
+    {
+     "id": "E6",
+     "tool": "category",
+     "title": "Category baseline: vehicle",
+     "source": {
+      "table": "claims",
+      "id": "category=vehicle"
+     },
+     "facts": [
+      {
+       "label": "Claims in category vehicle",
+       "value": 9213
+      },
+      {
+       "label": "Share of past claims in this category that needed manual review",
+       "value": "12.7%"
+      },
+      {
+       "label": "Share of past claims in ALL categories that needed manual review",
+       "value": "12.4%"
+      },
+      {
+       "label": "Typical (median) claim amount in this category, from training data",
+       "value": "3,661.55"
+      },
+      {
+       "label": "This claim's amount divided by that median",
+       "value": "0.38"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "documents missing, recommended",
+   "claim_id": "CLM-010266",
+   "seconds": 138,
+   "steps": [
+    "plan",
+    "gather_evidence",
+    "analysis",
+    "verification",
+    "report"
+   ],
+   "retries": 0,
+   "passed": 5,
+   "failed": 0,
+   "summary": "Risk score 0.7673 against a review threshold of 0.2336: recommended for manual review. Not flagged as unusual. Biggest factors raising the score: amount vs category median and days since previous claim.",
+   "findings": [
+    {
+     "text": "The model scored this claim as high risk because the claim amount is 19.01 times the median for the home category, which significantly raises the risk.",
+     "evidence": [
+      "E3",
+      "E6"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim is not flagged as unusual, but its anomaly score of 0.521 is below the threshold of 0.608, indicating it is not among the most unusual 2% of claims.",
+     "evidence": [
+      "E4"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The customer has a history of two claims in the last 12 months, which contributes to the risk score, and their previous home claim was much smaller than this one.",
+     "evidence": [
+      "E5"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The home category has a 12.6% manual review rate, slightly higher than the 12.4% rate for all categories, suggesting this claim may be more likely to require review.",
+     "evidence": [
+      "E6"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim amount is significantly higher than the median for the home category, which is a key factor in the model's risk assessment.",
+     "evidence": [
+      "E3",
+      "E6"
+     ],
+     "problems": []
+    }
+   ],
+   "unverified": [],
+   "questions": [
+    "Is there any documentation supporting the claim amount of 48,286.64?",
+    "Are the supporting documents for this claim available and complete?",
+    "What is the reason for the high claim amount compared to previous home claims?"
+   ],
+   "evidence": [
+    {
+     "id": "E1",
+     "tool": "claim",
+     "title": "Claim record",
+     "source": {
+      "table": "claims",
+      "id": "CLM-010266"
+     },
+     "facts": [
+      {
+       "label": "Claim",
+       "value": "CLM-010266"
+      },
+      {
+       "label": "Customer",
+       "value": "CUS-07482"
+      },
+      {
+       "label": "Region",
+       "value": "south"
+      },
+      {
+       "label": "Category",
+       "value": "home"
+      },
+      {
+       "label": "Claim amount",
+       "value": "48,286.64"
+      },
+      {
+       "label": "Claim date",
+       "value": "2024-11-08"
+      },
+      {
+       "label": "Policy start date",
+       "value": "2022-04-10"
+      },
+      {
+       "label": "Supporting documents",
+       "value": "missing"
+      }
+     ]
+    },
+    {
+     "id": "E2",
+     "tool": "risk",
+     "title": "Risk score",
+     "source": {
+      "table": "risk_predictions",
+      "id": 40432
+     },
+     "facts": [
+      {
+       "label": "Risk score (probability the claim needs manual review)",
+       "value": 0.7673
+      },
+      {
+       "label": "Review threshold",
+       "value": 0.2336
+      },
+      {
+       "label": "Recommended for review",
+       "value": "yes"
+      },
+      {
+       "label": "Model",
+       "value": "claims-review v1"
+      }
+     ]
+    },
+    {
+     "id": "E3",
+     "tool": "explanation",
+     "title": "Why the model gave this score (SHAP, largest effect first)",
+     "source": {
+      "table": "risk_predictions",
+      "id": "CLM-010266",
+      "method": "SHAP on the stored model inputs"
+     },
+     "facts": [
+      {
+       "label": "Amount vs category median = 19.01",
+       "value": "raises the risk by 1.86 (log-odds)"
+      },
+      {
+       "label": "Days since previous claim = 24",
+       "value": "raises the risk by 0.42 (log-odds)"
+      },
+      {
+       "label": "Claim amount = 48,286.64",
+       "value": "raises the risk by 0.14 (log-odds)"
+      },
+      {
+       "label": "Claims in the last 12 months = 2",
+       "value": "raises the risk by 0.09 (log-odds)"
+      },
+      {
+       "label": "Supporting documents = missing",
+       "value": "raises the risk by 0.07 (log-odds)"
+      },
+      {
+       "label": "Policy age (days) = 943",
+       "value": "raises the risk by 0.07 (log-odds)"
+      },
+      {
+       "label": "Claim category = home",
+       "value": "raises the risk by 0.02 (log-odds)"
+      }
+     ]
+    },
+    {
+     "id": "E4",
+     "tool": "anomaly",
+     "title": "Unusual-claim check",
+     "source": {
+      "table": "anomaly_results",
+      "id": 10266
+     },
+     "facts": [
+      {
+       "label": "Flagged unusual",
+       "value": "no: NOT among the most unusual 2% of claims"
+      },
+      {
+       "label": "Anomaly score (higher = more unusual)",
+       "value": 0.521
+      },
+      {
+       "label": "Flag threshold (flagged if the score is above it)",
+       "value": 0.608
+      },
+      {
+       "label": "Model",
+       "value": "claims-anomaly v1"
+      }
+     ]
+    },
+    {
+     "id": "E5",
+     "tool": "history",
+     "title": "Customer claim history",
+     "source": {
+      "table": "claims",
+      "id": "CUS-07482"
+     },
+     "facts": [
+      {
+       "label": "Earlier claims by this customer (all time)",
+       "value": 2
+      },
+      {
+       "label": "Claims in the last 12 months before this claim",
+       "value": 2
+      },
+      {
+       "label": "Claims in the last 14 days before this claim (used by the anomaly check, not by the risk model)",
+       "value": 0
+      },
+      {
+       "label": "Days since previous claim",
+       "value": 24
+      },
+      {
+       "label": "Earlier claims with exactly the same amount as this claim",
+       "value": 0
+      },
+      {
+       "label": "Earlier claim CLM-009679",
+       "value": "2024-10-15, health, 664.12"
+      },
+      {
+       "label": "Earlier claim CLM-001643",
+       "value": "2023-12-26, home, 970.68"
+      }
+     ]
+    },
+    {
+     "id": "E6",
+     "tool": "category",
+     "title": "Category baseline: home",
+     "source": {
+      "table": "claims",
+      "id": "category=home"
+     },
+     "facts": [
+      {
+       "label": "Claims in category home",
+       "value": 6772
+      },
+      {
+       "label": "Share of past claims in this category that needed manual review",
+       "value": "12.6%"
+      },
+      {
+       "label": "Share of past claims in ALL categories that needed manual review",
+       "value": "12.4%"
+      },
+      {
+       "label": "Typical (median) claim amount in this category, from training data",
+       "value": "2,540.61"
+      },
+      {
+       "label": "This claim's amount divided by that median",
+       "value": "19.01"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "documents missing, recommended",
+   "claim_id": "CLM-010460",
+   "seconds": 258,
+   "steps": [
+    "plan",
+    "gather_evidence",
+    "analysis",
+    "verification",
+    "analysis",
+    "verification",
+    "report"
+   ],
+   "retries": 1,
+   "passed": 5,
+   "failed": 0,
+   "summary": "Risk score 0.6923 against a review threshold of 0.2336: recommended for manual review. Not flagged as unusual. Biggest factors raising the score: amount vs category median and claim amount.",
+   "findings": [
+    {
+     "text": "The model scored the claim as high risk because the claim amount is significantly higher than the typical home claim amount, raising the risk by 10.61 times the median, and the supporting documents are missing, which raises the risk by 0.08 (log-odds).",
+     "evidence": [
+      "E3",
+      "E5"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim is not flagged as unusual, but its anomaly score of 0.521 is below the flag threshold of 0.608, indicating it is not among the most unusual 2% of claims.",
+     "evidence": [
+      "E4"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The risk score of 0.6923 exceeds the review threshold of 0.2336, and the model recommends manual review due to the combination of factors that raise the risk.",
+     "evidence": [
+      "E2"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The customer has no claims in the last 12 months, which lowers the risk by 0.13 (log-odds), and the days since the previous claim are missing, which lowers the risk by 0.26 (log-odds).",
+     "evidence": [
+      "E3"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The share of past home claims that needed manual review is 12.6%, slightly higher than the 12.4% for all categories, suggesting this claim may be more likely to require review.",
+     "evidence": [
+      "E5"
+     ],
+     "problems": []
+    }
+   ],
+   "unverified": [],
+   "questions": [
+    "Are the supporting documents for this claim missing, and if so, why?",
+    "What is the reason for the high claim amount of 26,964.44, and is it supported by the evidence provided?",
+    "Is there any documentation showing that the customer has not made any claims in the last 12 months?"
+   ],
+   "evidence": [
+    {
+     "id": "E1",
+     "tool": "claim",
+     "title": "Claim record",
+     "source": {
+      "table": "claims",
+      "id": "CLM-010460"
+     },
+     "facts": [
+      {
+       "label": "Claim",
+       "value": "CLM-010460"
+      },
+      {
+       "label": "Customer",
+       "value": "CUS-09120"
+      },
+      {
+       "label": "Region",
+       "value": "north"
+      },
+      {
+       "label": "Category",
+       "value": "home"
+      },
+      {
+       "label": "Claim amount",
+       "value": "26,964.44"
+      },
+      {
+       "label": "Claim date",
+       "value": "2024-11-15"
+      },
+      {
+       "label": "Policy start date",
+       "value": "2020-10-26"
+      },
+      {
+       "label": "Supporting documents",
+       "value": "missing"
+      }
+     ]
+    },
+    {
+     "id": "E2",
+     "tool": "risk",
+     "title": "Risk score",
+     "source": {
+      "table": "risk_predictions",
+      "id": 40626
+     },
+     "facts": [
+      {
+       "label": "Risk score (probability the claim needs manual review)",
+       "value": 0.6923
+      },
+      {
+       "label": "Review threshold",
+       "value": 0.2336
+      },
+      {
+       "label": "Recommended for review",
+       "value": "yes"
+      },
+      {
+       "label": "Model",
+       "value": "claims-review v1"
+      }
+     ]
+    },
+    {
+     "id": "E3",
+     "tool": "explanation",
+     "title": "Why the model gave this score (SHAP, largest effect first)",
+     "source": {
+      "table": "risk_predictions",
+      "id": "CLM-010460",
+      "method": "SHAP on the stored model inputs"
+     },
+     "facts": [
+      {
+       "label": "Amount vs category median = 10.61",
+       "value": "raises the risk by 2.65 (log-odds)"
+      },
+      {
+       "label": "Days since previous claim = missing",
+       "value": "lowers the risk by 0.26 (log-odds)"
+      },
+      {
+       "label": "Claim amount = 26,964.44",
+       "value": "raises the risk by 0.19 (log-odds)"
+      },
+      {
+       "label": "Claims in the last 12 months = 0",
+       "value": "lowers the risk by 0.13 (log-odds)"
+      },
+      {
+       "label": "Supporting documents = missing",
+       "value": "raises the risk by 0.08 (log-odds)"
+      },
+      {
+       "label": "Policy age (days) = 1,481",
+       "value": "lowers the risk by 0.05 (log-odds)"
+      },
+      {
+       "label": "Claim category = home",
+       "value": "raises the risk by 0.01 (log-odds)"
+      }
+     ]
+    },
+    {
+     "id": "E4",
+     "tool": "anomaly",
+     "title": "Unusual-claim check",
+     "source": {
+      "table": "anomaly_results",
+      "id": 10460
+     },
+     "facts": [
+      {
+       "label": "Flagged unusual",
+       "value": "no: NOT among the most unusual 2% of claims"
+      },
+      {
+       "label": "Anomaly score (higher = more unusual)",
+       "value": 0.521
+      },
+      {
+       "label": "Flag threshold (flagged if the score is above it)",
+       "value": 0.608
+      },
+      {
+       "label": "Model",
+       "value": "claims-anomaly v1"
+      }
+     ]
+    },
+    {
+     "id": "E5",
+     "tool": "category",
+     "title": "Category baseline: home",
+     "source": {
+      "table": "claims",
+      "id": "category=home"
+     },
+     "facts": [
+      {
+       "label": "Claims in category home",
+       "value": 6772
+      },
+      {
+       "label": "Share of past claims in this category that needed manual review",
+       "value": "12.6%"
+      },
+      {
+       "label": "Share of past claims in ALL categories that needed manual review",
+       "value": "12.4%"
+      },
+      {
+       "label": "Typical (median) claim amount in this category, from training data",
+       "value": "2,540.61"
+      },
+      {
+       "label": "This claim's amount divided by that median",
+       "value": "10.61"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "customer's first claim",
+   "claim_id": "CLM-006465",
+   "seconds": 141,
+   "steps": [
+    "plan",
+    "gather_evidence",
+    "analysis",
+    "verification",
+    "report"
+   ],
+   "retries": 0,
+   "passed": 5,
+   "failed": 0,
+   "summary": "Risk score 0.7198 against a review threshold of 0.2336: recommended for manual review. Not flagged as unusual. Biggest factors raising the score: amount vs category median and claim amount.",
+   "findings": [
+    {
+     "text": "The model scored this claim as high risk because the claim amount is 17.96 times the median for the health category, which significantly raises the risk.",
+     "evidence": [
+      "E1",
+      "E3",
+      "E5"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim is not flagged as unusual, but its anomaly score of 0.541 is below the flag threshold of 0.608, indicating it is not among the most unusual 2% of claims.",
+     "evidence": [
+      "E4"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The health category has a 11.3% manual review rate, which is slightly lower than the 12.4% rate for all categories, suggesting this claim is somewhat less likely to need review based on category alone.",
+     "evidence": [
+      "E5"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim's amount is 21,791.25, which is much higher than the typical 1,213.47 for health claims, contributing to the high risk score.",
+     "evidence": [
+      "E1",
+      "E5"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The model indicates that the claim's amount raises the risk by 0.22 (log-odds), while the category being health lowers the risk by 0.06 (log-odds).",
+     "evidence": [
+      "E3"
+     ],
+     "problems": []
+    }
+   ],
+   "unverified": [],
+   "questions": [
+    "Does the supporting documentation adequately justify the high claim amount of 21,791.25?",
+    "Are there any additional claims in the last 12 months that were not reported?"
+   ],
+   "evidence": [
+    {
+     "id": "E1",
+     "tool": "claim",
+     "title": "Claim record",
+     "source": {
+      "table": "claims",
+      "id": "CLM-006465"
+     },
+     "facts": [
+      {
+       "label": "Claim",
+       "value": "CLM-006465"
+      },
+      {
+       "label": "Customer",
+       "value": "CUS-03202"
+      },
+      {
+       "label": "Region",
+       "value": "south"
+      },
+      {
+       "label": "Category",
+       "value": "health"
+      },
+      {
+       "label": "Claim amount",
+       "value": "21,791.25"
+      },
+      {
+       "label": "Claim date",
+       "value": "2024-06-16"
+      },
+      {
+       "label": "Policy start date",
+       "value": "2020-10-03"
+      },
+      {
+       "label": "Supporting documents",
+       "value": 4
+      }
+     ]
+    },
+    {
+     "id": "E2",
+     "tool": "risk",
+     "title": "Risk score",
+     "source": {
+      "table": "risk_predictions",
+      "id": 36631
+     },
+     "facts": [
+      {
+       "label": "Risk score (probability the claim needs manual review)",
+       "value": 0.7198
+      },
+      {
+       "label": "Review threshold",
+       "value": 0.2336
+      },
+      {
+       "label": "Recommended for review",
+       "value": "yes"
+      },
+      {
+       "label": "Model",
+       "value": "claims-review v1"
+      }
+     ]
+    },
+    {
+     "id": "E3",
+     "tool": "explanation",
+     "title": "Why the model gave this score (SHAP, largest effect first)",
+     "source": {
+      "table": "risk_predictions",
+      "id": "CLM-006465",
+      "method": "SHAP on the stored model inputs"
+     },
+     "facts": [
+      {
+       "label": "Amount vs category median = 17.96",
+       "value": "raises the risk by 2.58 (log-odds)"
+      },
+      {
+       "label": "Days since previous claim = missing",
+       "value": "lowers the risk by 0.24 (log-odds)"
+      },
+      {
+       "label": "Claim amount = 21,791.25",
+       "value": "raises the risk by 0.22 (log-odds)"
+      },
+      {
+       "label": "Claims in the last 12 months = 0",
+       "value": "lowers the risk by 0.11 (log-odds)"
+      },
+      {
+       "label": "Policy age (days) = 1,352",
+       "value": "raises the risk by 0.09 (log-odds)"
+      },
+      {
+       "label": "Claim category = health",
+       "value": "lowers the risk by 0.06 (log-odds)"
+      },
+      {
+       "label": "Supporting documents = 4",
+       "value": "lowers the risk by 0.03 (log-odds)"
+      }
+     ]
+    },
+    {
+     "id": "E4",
+     "tool": "anomaly",
+     "title": "Unusual-claim check",
+     "source": {
+      "table": "anomaly_results",
+      "id": 6465
+     },
+     "facts": [
+      {
+       "label": "Flagged unusual",
+       "value": "no: NOT among the most unusual 2% of claims"
+      },
+      {
+       "label": "Anomaly score (higher = more unusual)",
+       "value": 0.541
+      },
+      {
+       "label": "Flag threshold (flagged if the score is above it)",
+       "value": 0.608
+      },
+      {
+       "label": "Model",
+       "value": "claims-anomaly v1"
+      }
+     ]
+    },
+    {
+     "id": "E5",
+     "tool": "category",
+     "title": "Category baseline: health",
+     "source": {
+      "table": "claims",
+      "id": "category=health"
+     },
+     "facts": [
+      {
+       "label": "Claims in category health",
+       "value": 6350
+      },
+      {
+       "label": "Share of past claims in this category that needed manual review",
+       "value": "11.3%"
+      },
+      {
+       "label": "Share of past claims in ALL categories that needed manual review",
+       "value": "12.4%"
+      },
+      {
+       "label": "Typical (median) claim amount in this category, from training data",
+       "value": "1,213.47"
+      },
+      {
+       "label": "This claim's amount divided by that median",
+       "value": "17.96"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "customer's first claim",
+   "claim_id": "CLM-002915",
+   "seconds": 245,
+   "steps": [
+    "plan",
+    "gather_evidence",
+    "analysis",
+    "verification",
+    "analysis",
+    "verification",
+    "report"
+   ],
+   "retries": 1,
+   "passed": 5,
+   "failed": 0,
+   "summary": "Risk score 0.6384 against a review threshold of 0.2336: recommended for manual review. Not flagged as unusual. Biggest factors raising the score: amount vs category median and claim amount.",
+   "findings": [
+    {
+     "text": "The model scored this claim as high risk because the claim amount is 10.20 times the median for the health category, which raises the risk by 2.58 log-odds, and the claim amount itself raises the risk by 0.20 log-odds.",
+     "evidence": [
+      "E3",
+      "E5"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim is not flagged as unusual, but its anomaly score of 0.527 is below the flag threshold of 0.608, indicating it is not among the most unusual 2% of claims.",
+     "evidence": [
+      "E4"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim's category baseline shows that 11.3% of health claims in the past required manual review, which is slightly below the 12.4% rate for all categories.",
+     "evidence": [
+      "E5"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The model indicates that having no claims in the last 12 months lowers the risk by 0.11 log-odds, which may suggest a lower likelihood of error, but this factor is outweighed by other risk factors.",
+     "evidence": [
+      "E3"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The model indicates that the claim amount being 12,371.49 raises the risk by 0.20 log-odds, which is a significant factor in the overall risk score.",
+     "evidence": [
+      "E3"
+     ],
+     "problems": []
+    }
+   ],
+   "unverified": [],
+   "questions": [
+    "Does the supporting documentation adequately justify the claim amount of 12,371.49?",
+    "Are there any additional claims or medical records that were not included in the supporting documents?"
+   ],
+   "evidence": [
+    {
+     "id": "E1",
+     "tool": "claim",
+     "title": "Claim record",
+     "source": {
+      "table": "claims",
+      "id": "CLM-002915"
+     },
+     "facts": [
+      {
+       "label": "Claim",
+       "value": "CLM-002915"
+      },
+      {
+       "label": "Customer",
+       "value": "CUS-01695"
+      },
+      {
+       "label": "Region",
+       "value": "central"
+      },
+      {
+       "label": "Category",
+       "value": "health"
+      },
+      {
+       "label": "Claim amount",
+       "value": "12,371.49"
+      },
+      {
+       "label": "Claim date",
+       "value": "2024-02-04"
+      },
+      {
+       "label": "Policy start date",
+       "value": "2020-05-14"
+      },
+      {
+       "label": "Supporting documents",
+       "value": 4
+      }
+     ]
+    },
+    {
+     "id": "E2",
+     "tool": "risk",
+     "title": "Risk score",
+     "source": {
+      "table": "risk_predictions",
+      "id": 33081
+     },
+     "facts": [
+      {
+       "label": "Risk score (probability the claim needs manual review)",
+       "value": 0.6384
+      },
+      {
+       "label": "Review threshold",
+       "value": 0.2336
+      },
+      {
+       "label": "Recommended for review",
+       "value": "yes"
+      },
+      {
+       "label": "Model",
+       "value": "claims-review v1"
+      }
+     ]
+    },
+    {
+     "id": "E3",
+     "tool": "explanation",
+     "title": "Why the model gave this score (SHAP, largest effect first)",
+     "source": {
+      "table": "risk_predictions",
+      "id": "CLM-002915",
+      "method": "SHAP on the stored model inputs"
+     },
+     "facts": [
+      {
+       "label": "Amount vs category median = 10.20",
+       "value": "raises the risk by 2.58 (log-odds)"
+      },
+      {
+       "label": "Days since previous claim = missing",
+       "value": "lowers the risk by 0.25 (log-odds)"
+      },
+      {
+       "label": "Claim amount = 12,371.49",
+       "value": "raises the risk by 0.20 (log-odds)"
+      },
+      {
+       "label": "Claims in the last 12 months = 0",
+       "value": "lowers the risk by 0.11 (log-odds)"
+      },
+      {
+       "label": "Policy age (days) = 1,361",
+       "value": "raises the risk by 0.09 (log-odds)"
+      },
+      {
+       "label": "Claim category = health",
+       "value": "lowers the risk by 0.06 (log-odds)"
+      },
+      {
+       "label": "Supporting documents = 4",
+       "value": "lowers the risk by 0.03 (log-odds)"
+      }
+     ]
+    },
+    {
+     "id": "E4",
+     "tool": "anomaly",
+     "title": "Unusual-claim check",
+     "source": {
+      "table": "anomaly_results",
+      "id": 2915
+     },
+     "facts": [
+      {
+       "label": "Flagged unusual",
+       "value": "no: NOT among the most unusual 2% of claims"
+      },
+      {
+       "label": "Anomaly score (higher = more unusual)",
+       "value": 0.527
+      },
+      {
+       "label": "Flag threshold (flagged if the score is above it)",
+       "value": 0.608
+      },
+      {
+       "label": "Model",
+       "value": "claims-anomaly v1"
+      }
+     ]
+    },
+    {
+     "id": "E5",
+     "tool": "category",
+     "title": "Category baseline: health",
+     "source": {
+      "table": "claims",
+      "id": "category=health"
+     },
+     "facts": [
+      {
+       "label": "Claims in category health",
+       "value": 6350
+      },
+      {
+       "label": "Share of past claims in this category that needed manual review",
+       "value": "11.3%"
+      },
+      {
+       "label": "Share of past claims in ALL categories that needed manual review",
+       "value": "12.4%"
+      },
+      {
+       "label": "Typical (median) claim amount in this category, from training data",
+       "value": "1,213.47"
+      },
+      {
+       "label": "This claim's amount divided by that median",
+       "value": "10.20"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "from the drifted batch",
+   "claim_id": "CLM-040323",
+   "seconds": 226,
+   "steps": [
+    "plan",
+    "gather_evidence",
+    "analysis",
+    "verification",
+    "analysis",
+    "verification",
+    "report"
+   ],
+   "retries": 1,
+   "passed": 5,
+   "failed": 0,
+   "summary": "Risk score 0.708 against a review threshold of 0.2336: recommended for manual review. Not flagged as unusual. Biggest factors raising the score: amount vs category median and days since previous claim.",
+   "findings": [
+    {
+     "text": "The model scored this claim as high risk because the claim amount is 1,024.80, which is 3.28 times the typical median amount for the device category, raising the risk by 1.14 (log-odds).",
+     "evidence": [
+      "E3",
+      "E6"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The model also scored this claim as high risk due to the customer having 6 claims in the last 12 months, which raises the risk by 0.63 (log-odds).",
+     "evidence": [
+      "E3"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim is not flagged as unusual, as its anomaly score of 0.528 is below the flag threshold of 0.608.",
+     "evidence": [
+      "E4"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The customer has a history of 20 claims, with 6 in the last 12 months, and the days since the previous claim is 19, which contributes to the high risk score.",
+     "evidence": [
+      "E5"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The category baseline for device shows that 13.6% of past device claims needed manual review, which is higher than the 12.4% for all categories.",
+     "evidence": [
+      "E6"
+     ],
+     "problems": []
+    }
+   ],
+   "unverified": [],
+   "questions": [
+    "Is the claim amount of 1,024.80 consistent with the customer's past claims in the device category?",
+    "Are the supporting documents sufficient to justify the claim amount of 1,024.80?",
+    "Is the claim for a device-related incident properly documented and consistent with the customer's history?"
+   ],
+   "evidence": [
+    {
+     "id": "E1",
+     "tool": "claim",
+     "title": "Claim record",
+     "source": {
+      "table": "claims",
+      "id": "CLM-040323"
+     },
+     "facts": [
+      {
+       "label": "Claim",
+       "value": "CLM-040323"
+      },
+      {
+       "label": "Customer",
+       "value": "CUS-05753"
+      },
+      {
+       "label": "Region",
+       "value": "west"
+      },
+      {
+       "label": "Category",
+       "value": "device"
+      },
+      {
+       "label": "Claim amount",
+       "value": "1,024.80"
+      },
+      {
+       "label": "Claim date",
+       "value": "2026-11-10"
+      },
+      {
+       "label": "Policy start date",
+       "value": "2022-01-24"
+      },
+      {
+       "label": "Supporting documents",
+       "value": 1
+      }
+     ]
+    },
+    {
+     "id": "E2",
+     "tool": "risk",
+     "title": "Risk score",
+     "source": {
+      "table": "risk_predictions",
+      "id": 68555
+     },
+     "facts": [
+      {
+       "label": "Risk score (probability the claim needs manual review)",
+       "value": 0.708
+      },
+      {
+       "label": "Review threshold",
+       "value": 0.2336
+      },
+      {
+       "label": "Recommended for review",
+       "value": "yes"
+      },
+      {
+       "label": "Model",
+       "value": "claims-review v1"
+      }
+     ]
+    },
+    {
+     "id": "E3",
+     "tool": "explanation",
+     "title": "Why the model gave this score (SHAP, largest effect first)",
+     "source": {
+      "table": "risk_predictions",
+      "id": "CLM-040323",
+      "method": "SHAP on the stored model inputs"
+     },
+     "facts": [
+      {
+       "label": "Amount vs category median = 3.28",
+       "value": "raises the risk by 1.14 (log-odds)"
+      },
+      {
+       "label": "Days since previous claim = 19",
+       "value": "raises the risk by 0.73 (log-odds)"
+      },
+      {
+       "label": "Claims in the last 12 months = 6",
+       "value": "raises the risk by 0.63 (log-odds)"
+      },
+      {
+       "label": "Supporting documents = 1",
+       "value": "raises the risk by 0.16 (log-odds)"
+      },
+      {
+       "label": "Policy age (days) = 1,751",
+       "value": "lowers the risk by 0.07 (log-odds)"
+      },
+      {
+       "label": "Claim category = device",
+       "value": "raises the risk by 0.04 (log-odds)"
+      },
+      {
+       "label": "Claim amount = 1,024.80",
+       "value": "lowers the risk by 0.04 (log-odds)"
+      }
+     ]
+    },
+    {
+     "id": "E4",
+     "tool": "anomaly",
+     "title": "Unusual-claim check",
+     "source": {
+      "table": "anomaly_results",
+      "id": 38389
+     },
+     "facts": [
+      {
+       "label": "Flagged unusual",
+       "value": "no: NOT among the most unusual 2% of claims"
+      },
+      {
+       "label": "Anomaly score (higher = more unusual)",
+       "value": 0.528
+      },
+      {
+       "label": "Flag threshold (flagged if the score is above it)",
+       "value": 0.608
+      },
+      {
+       "label": "Model",
+       "value": "claims-anomaly v1"
+      }
+     ]
+    },
+    {
+     "id": "E5",
+     "tool": "history",
+     "title": "Customer claim history",
+     "source": {
+      "table": "claims",
+      "id": "CUS-05753"
+     },
+     "facts": [
+      {
+       "label": "Earlier claims by this customer (all time)",
+       "value": 20
+      },
+      {
+       "label": "Claims in the last 12 months before this claim",
+       "value": 6
+      },
+      {
+       "label": "Claims in the last 14 days before this claim (used by the anomaly check, not by the risk model)",
+       "value": 0
+      },
+      {
+       "label": "Days since previous claim",
+       "value": 19
+      },
+      {
+       "label": "Earlier claims with exactly the same amount as this claim",
+       "value": 0
+      },
+      {
+       "label": "Earlier claim CLM-029932",
+       "value": "2026-10-22, home, 1,762.26"
+      },
+      {
+       "label": "Earlier claim CLM-029209",
+       "value": "2026-09-23, travel, 467.89"
+      },
+      {
+       "label": "Earlier claim CLM-023463",
+       "value": "2026-02-18, health, 1,425.82"
+      },
+      {
+       "label": "Earlier claim CLM-022956",
+       "value": "2026-02-03, vehicle, 1,670.46"
+      },
+      {
+       "label": "Earlier claim CLM-021187",
+       "value": "2025-12-10, travel, 424.60"
+      }
+     ]
+    },
+    {
+     "id": "E6",
+     "tool": "category",
+     "title": "Category baseline: device",
+     "source": {
+      "table": "claims",
+      "id": "category=device"
+     },
+     "facts": [
+      {
+       "label": "Claims in category device",
+       "value": 4192
+      },
+      {
+       "label": "Share of past claims in this category that needed manual review",
+       "value": "13.6%"
+      },
+      {
+       "label": "Share of past claims in ALL categories that needed manual review",
+       "value": "12.4%"
+      },
+      {
+       "label": "Typical (median) claim amount in this category, from training data",
+       "value": "312.06"
+      },
+      {
+       "label": "This claim's amount divided by that median",
+       "value": "3.28"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "from the drifted batch",
+   "claim_id": "CLM-040263",
+   "seconds": 244,
+   "steps": [
+    "plan",
+    "gather_evidence",
+    "analysis",
+    "verification",
+    "analysis",
+    "verification",
+    "report"
+   ],
+   "retries": 1,
+   "passed": 5,
+   "failed": 0,
+   "summary": "Risk score 0.6987 against a review threshold of 0.2336: recommended for manual review. Flagged as unusual by the anomaly check. Biggest factors raising the score: amount vs category median and days since previous claim.",
+   "findings": [
+    {
+     "text": "The model scored this claim as high risk because the claim amount is 6,928.24, which is 5.71 times the typical median for the health category, raising the risk by 1.47 (log-odds).",
+     "evidence": [
+      "E3",
+      "E6"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim is flagged as unusual, with an anomaly score of 0.658, which is above the flag threshold of 0.608, indicating it is among the most unusual 2% of claims.",
+     "evidence": [
+      "E4"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The customer has a history of 15 claims, with 11 in the last 12 months, and the days since the previous claim is 10, both of which raise the risk by 0.50 and 0.62 (log-odds), respectively.",
+     "evidence": [
+      "E3",
+      "E5"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The share of past health category claims that needed manual review is 11.3%, which is slightly lower than the 12.4% rate for all categories.",
+     "evidence": [
+      "E6"
+     ],
+     "problems": []
+    },
+    {
+     "text": "The claim amount is 6,928.24, which is much higher than the typical median of 1,213.47 for the health category, contributing to the high risk score.",
+     "evidence": [
+      "E3",
+      "E6"
+     ],
+     "problems": []
+    }
+   ],
+   "unverified": [],
+   "questions": [
+    "Are the supporting documents sufficient to justify the claim amount of 6,928.24?",
+    "Is there any documentation that explains the unusually high claim amount compared to previous health claims?",
+    "Are the dates and details of the claim consistent with the customer's previous claims in the last 12 months?"
+   ],
+   "evidence": [
+    {
+     "id": "E1",
+     "tool": "claim",
+     "title": "Claim record",
+     "source": {
+      "table": "claims",
+      "id": "CLM-040263"
+     },
+     "facts": [
+      {
+       "label": "Claim",
+       "value": "CLM-040263"
+      },
+      {
+       "label": "Customer",
+       "value": "CUS-01743"
+      },
+      {
+       "label": "Region",
+       "value": "south"
+      },
+      {
+       "label": "Category",
+       "value": "health"
+      },
+      {
+       "label": "Claim amount",
+       "value": "6,928.24"
+      },
+      {
+       "label": "Claim date",
+       "value": "2026-11-11"
+      },
+      {
+       "label": "Policy start date",
+       "value": "2023-04-13"
+      },
+      {
+       "label": "Supporting documents",
+       "value": 4
+      }
+     ]
+    },
+    {
+     "id": "E2",
+     "tool": "risk",
+     "title": "Risk score",
+     "source": {
+      "table": "risk_predictions",
+      "id": 68495
+     },
+     "facts": [
+      {
+       "label": "Risk score (probability the claim needs manual review)",
+       "value": 0.6987
+      },
+      {
+       "label": "Review threshold",
+       "value": 0.2336
+      },
+      {
+       "label": "Recommended for review",
+       "value": "yes"
+      },
+      {
+       "label": "Model",
+       "value": "claims-review v1"
+      }
+     ]
+    },
+    {
+     "id": "E3",
+     "tool": "explanation",
+     "title": "Why the model gave this score (SHAP, largest effect first)",
+     "source": {
+      "table": "risk_predictions",
+      "id": "CLM-040263",
+      "method": "SHAP on the stored model inputs"
+     },
+     "facts": [
+      {
+       "label": "Amount vs category median = 5.71",
+       "value": "raises the risk by 1.47 (log-odds)"
+      },
+      {
+       "label": "Days since previous claim = 10",
+       "value": "raises the risk by 0.62 (log-odds)"
+      },
+      {
+       "label": "Claims in the last 12 months = 11",
+       "value": "raises the risk by 0.50 (log-odds)"
+      },
+      {
+       "label": "Claim amount = 6,928.24",
+       "value": "raises the risk by 0.12 (log-odds)"
+      },
+      {
+       "label": "Supporting documents = 4",
+       "value": "lowers the risk by 0.05 (log-odds)"
+      },
+      {
+       "label": "Policy age (days) = 1,308",
+       "value": "raises the risk by 0.04 (log-odds)"
+      },
+      {
+       "label": "Claim category = health",
+       "value": "lowers the risk by 0.04 (log-odds)"
+      }
+     ]
+    },
+    {
+     "id": "E4",
+     "tool": "anomaly",
+     "title": "Unusual-claim check",
+     "source": {
+      "table": "anomaly_results",
+      "id": 38329
+     },
+     "facts": [
+      {
+       "label": "Flagged unusual",
+       "value": "yes: among the most unusual 2% of claims"
+      },
+      {
+       "label": "Anomaly score (higher = more unusual)",
+       "value": 0.658
+      },
+      {
+       "label": "Flag threshold (flagged if the score is above it)",
+       "value": 0.608
+      },
+      {
+       "label": "Model",
+       "value": "claims-anomaly v1"
+      }
+     ]
+    },
+    {
+     "id": "E5",
+     "tool": "history",
+     "title": "Customer claim history",
+     "source": {
+      "table": "claims",
+      "id": "CUS-01743"
+     },
+     "facts": [
+      {
+       "label": "Earlier claims by this customer (all time)",
+       "value": 15
+      },
+      {
+       "label": "Claims in the last 12 months before this claim",
+       "value": 11
+      },
+      {
+       "label": "Claims in the last 14 days before this claim (used by the anomaly check, not by the risk model)",
+       "value": 1
+      },
+      {
+       "label": "Days since previous claim",
+       "value": 10
+      },
+      {
+       "label": "Earlier claims with exactly the same amount as this claim",
+       "value": 0
+      },
+      {
+       "label": "Earlier claim CLM-040175",
+       "value": "2026-11-01, device, 212.94"
+      },
+      {
+       "label": "Earlier claim CLM-028175",
+       "value": "2026-08-15, vehicle, 2,471.99"
+      },
+      {
+       "label": "Earlier claim CLM-026780",
+       "value": "2026-06-27, vehicle, 545.74"
+      },
+      {
+       "label": "Earlier claim CLM-025145",
+       "value": "2026-04-20, travel, 371.56"
+      },
+      {
+       "label": "Earlier claim CLM-023860",
+       "value": "2026-03-03, vehicle, 1,305.18"
+      }
+     ]
+    },
+    {
+     "id": "E6",
+     "tool": "category",
+     "title": "Category baseline: health",
+     "source": {
+      "table": "claims",
+      "id": "category=health"
+     },
+     "facts": [
+      {
+       "label": "Claims in category health",
+       "value": 6350
+      },
+      {
+       "label": "Share of past claims in this category that needed manual review",
+       "value": "11.3%"
+      },
+      {
+       "label": "Share of past claims in ALL categories that needed manual review",
+       "value": "12.4%"
+      },
+      {
+       "label": "Typical (median) claim amount in this category, from training data",
+       "value": "1,213.47"
+      },
+      {
+       "label": "This claim's amount divided by that median",
+       "value": "5.71"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
